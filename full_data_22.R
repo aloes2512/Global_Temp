@@ -1,5 +1,9 @@
 # Hadley Dataset
 require(tidyverse)
+# the data have been previously downloaded and formatted
+data_path<- "~/Desktop/Klima_Energiewende/Daten/Central_England_Temp.rds"
+dat<-readRDS(data_path)
+# for renewal
 centr_engl<-"https://www.metoffice.gov.uk/hadobs/hadcet/cetdl1772on.dat"
 browseURL(centr_engl)
 CET_data<- url(centr_engl)
@@ -37,18 +41,24 @@ yr_dat<-yr_dat %>% subset(Year< 2022)
 str(yr_dat)
 yr_dat%>%  ggplot(aes(x= Year))+
   geom_point(aes(y= yr_average))+
-  geom_smooth(aes(y= yr_average),n=40)
+  geom_smooth(aes(y= yr_average),n=5)
 # Tempdat
 require(xts)
 Temp_dat<-readRDS("~/Desktop/Klima_Energiewende/Daten/Central_England_Temp.rds")
+Temp_dat<-Temp_dat%>% arrange(datum)
 head(Temp_dat)
+
 Temp_xts<- xts(order.by = Temp_dat$datum,x= Temp_dat%>% dplyr::select(-datum))
 Temp_yr_mdl<- mgcv::gam(yr_average ~ s(Year),data= subset(yr_dat,Year<2022), method = "ML")
+require(stats)
 preplot(Temp_yr_mdl)
 require(mgcViz)
 Temp.yr_b<- getViz(Temp_yr_mdl)
 Temp.yr_o<-plot(sm(Temp.yr_b,1))
+preplot(Temp_yr_mdl)
 listLayers(Temp.yr_o)
+str(Temp.yr_o)
+Temp.yr_o$ggObj$data%>% head()
 ylab1 <- expression(Temp-deviation~(degree*C))
 centrl_engl_Temp<-Temp.yr_o+l_fitLine(colour = "red")+
   l_ciLine(linetype= 2,col = "blue")+
