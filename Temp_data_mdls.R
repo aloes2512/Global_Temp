@@ -47,4 +47,4 @@ Temp_fit %>% ggplot(aes(x=datum))+
   ggtitle("Central England Mean Temperatures",
           subtitle = " with 95% confidence intervalls")+
   labs(x="",y= ylab)
-
+saveRDS(Temp_fit, file= "Temp_dat_fitted.rds")
