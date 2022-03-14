@@ -7,6 +7,7 @@ require(tidyverse)
 head(dat)
 tail(dat)
 NROW(dat)#91311
+last(dat)
 # Overview dat
 ylab= expression(Temperature~(degree*C))
 CET_plt<-dat%>% ggplot(aes(x=datum))+
