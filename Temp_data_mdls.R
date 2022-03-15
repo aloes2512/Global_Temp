@@ -44,6 +44,10 @@ Temp_plt+geom_smooth(method = mgcv::gam,formula = y ~ s(x, k=12),
   data = dat,aes(x= datum, y= Temp10/10),col= "black",linetype= 2)
 # Day-Mean-Temperatures
 ylab0<-expression(Mean-Temperatur~(degree*C))
-Day_Temp<- dat%>% ggplot(aes(x=datum,y=Temp10/10))+geom_point(size =0.01)+ggtitle("Day-Mean Temperature
-  Central England")+
-  labs(y= ylab0, x="")
+Day_Temp<- dat%>% ggplot(aes(x=datum,y=Temp10/10))+
+                        geom_point(size =0.01,alpha= 0.1)+
+                        ggtitle("Daily-Mean Temperature
+Central England")+
+                                labs(y= ylab0, x="")
+Day_Temp
+
