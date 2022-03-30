@@ -35,9 +35,13 @@ sunspot.daily<-read.csv2(dat_path)%>%
 sunspot.daily<- subset(sunspot.daily, datum< ymd("2022-01-01"))
 sunspot.daily%>% na.omit()%>%ggplot(aes(x=datum,y=Daily.Nr))+
   geom_point(size = 0.01)+
-  geom_smooth()
+  geom_smooth()+
+  ggtitle("Daily Observed Sunspots",
+          subtitle = "Recorded by Belgium Royal Observatory, Brussels")+
+  labs(x="",y = "Daily Counts")
 summary(sunspot.daily)
 ymd("2022-01-01")-ymd("1818-01-02")# 74509 days
+ymd("2022-01-01")-ymd("1818-01-02")/(19*365)
 NROW(sunspot.daily)# 74509
 SPmax<-max(sunspot.daily$Daily.Nr,na.rm = TRUE)
 sunspot.daily<-sunspot.daily%>% mutate(prz= Daily.Nr*100/SPmax)

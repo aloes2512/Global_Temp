@@ -6,7 +6,8 @@ require(xts)
 require(tidyverse)
 head(dat)
 tail(dat)
-NROW(dat)#91311
+range(dat$datum)[2]-range(dat$datum)[1]# 91310 days
+N<-NROW(dat)#91311
 # Overview dat
 ylab= expression(Temperature~(degree*C))
 CET_plt<-dat%>% ggplot(aes(x=datum))+
@@ -79,16 +80,21 @@ ggsave (filename = "figs/Central_England_Temp_fitted_36.png")
 #==================================
 # Temperature change rate
 Temp_fit.36 %>% head(2) # 36 basis functions
-Temp_chg.36<-Temp_chg_plt.36<-Temp_fit.36%>% 
+Temp_chg_plt.36<-Temp_fit.36%>% 
   mutate(Temp.chg= lead(fit)-fit)
+# fitting with 36 basis functions means 
+#that the total time span is divided into 35 intervals
+partl_length.36<- round((N-1)/35)#2609 days 7 years
 Temp_chg.36%>%ggplot(aes(x=datum))+
   geom_line(aes(y=Temp.chg*365))+
   ggtitle("Central England ",
          subtitle = "temperature-change-rate
   36 basis functions")+
   labs(x="",y= expression(Temperature-Change~degree*C/a))
+partl_length.18<- round((N-1)/17)#5371 days ~ 14 years
 Temp_chg.18<-Temp_fit.18%>% 
   mutate(Temp.chg= lead(fit)-fit) 
+
 Temp_chg.18%>%ggplot(aes(x=datum))+
   geom_line(aes(y=Temp.chg*365))+
   ggtitle("Central England ",
