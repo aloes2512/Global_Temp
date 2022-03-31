@@ -52,6 +52,10 @@ SP_data$SP%>% mean(na.rm=T)#82.2225 on 74509 observations
 SP_data$SP_fit.60%>% mean(na.rm=TRUE)#82.2225 on 74509 observations
 SP_data$rwnm<-1:NROW(SP_data)# NROW = 7459
 # fitting with negbinom
+#negbin method taken from url_negbin
+url_negbin<-"https://astrostatistics.psu.edu/su07/R/html/mgcv/html/gam.neg.bin.html"
+browseURL(url_negbin)
+
 negative.binomial(theta = 2,link="log")
 SP_mdl.nbin<- mgcv::gam(data=SP_data,formula = SP~s(rwnm,k=60),family=negbin(1),scale=1)
 summary(SP_mdl.nbin)# intercept 4.033414; exp(4.033414)= 56.45331

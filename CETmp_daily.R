@@ -45,6 +45,13 @@ df_model.36<-gam(data=df_1772,formula=temp ~ s(Nr,k=36), method="REML")
 AIC(df_model.36)#374765.5
 df_model.48<-gam(data=df_1772,formula=temp ~ s(Nr,k=48), method="REML")
 AIC(df_model.48)#374760.3 is minimum
+df_model.60<-gam(data=df_1772,formula=temp ~ s(Nr,k=60), method="REML")
+AIC(df_model.60)#374760.3 is minimum
+df_model.72<-gam(data=df_1772,formula=temp ~ s(Nr,k=72), method="REML")
+AIC(df_model.72)#374760.3 is minimum
+
+
+mdl.72<-modl_function(data = df_1772,K=72)
 require(broom)
 dfr_mdl<- function(.mdl){
   .dfr<-.mdl%>%augment()%>% dplyr::select(Tmp=.fitted,se=.se.fit)
@@ -54,6 +61,7 @@ dfr_mdl<- function(.mdl){
 DFTemp.6<- dfr_mdl(df.model.6)
 DFTemp.12<- dfr_mdl(df.model.12)
 DFTemp.48<-dfr_mdl(df_model.48)
+
 #check model and data df_1772
 dim(DFTemp.48) #[1] 60311     3
 dim(df_1772)==dim(DFTemp.48)#TRUE
