@@ -2,3 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+Temp_dat_fitted.rds
+CET_daily_Temp.R
+Temp_data_mdls.R
+SP_fit_negbin.R
