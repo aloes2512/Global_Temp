@@ -1,8 +1,5 @@
 # Hadley Dataset
-require(tidyverse)
-# the data have been previously downloaded and formatted
-data_path<- "~/Desktop/Klima_Energiewende/Daten/Central_England_Temp.rds"
-dat<-readRDS(data_path)
+library(tidyverse)
 # for renewal
 centr_engl<-"https://www.metoffice.gov.uk/hadobs/hadcet/cetdl1772on.dat"
 browseURL(centr_engl)
@@ -18,7 +15,13 @@ require(lubridate)
 summary(dat)
 dat<-dat%>% mutate(datum=paste0(Year,"-",month,"-",Day),datum=ymd(datum),month= as_factor (month))
 dat<-dat%>% arrange(datum)%>% dplyr::select(datum,month,Temp)
+# cleaned and formatted Temp data
 saveRDS(dat,file = "~/Desktop/Klima_Energiewende/Daten/Central_England_Temp.rds")
+saveRDS(dat, file="data/Central_England_Temp.rds")
+#===========================
+# if data have been previously downloaded and formatted
+data_path<- "~/Desktop/Klima_Energiewende/Daten/Central_England_Temp.rds"
+dat<-readRDS(data_path)
 # Overview Trends
 ylab <- expression(Temperature~(~degree*C))
 dat%>% ggplot(aes(datum,Temp))+
@@ -49,7 +52,7 @@ require(xts)
 Temp_dat<-readRDS("~/Desktop/Klima_Energiewende/Daten/Central_England_Temp.rds")
 Temp_dat<-Temp_dat%>% arrange(datum)
 head(Temp_dat)
-
+# other formats
 Temp_xts<- xts(order.by = Temp_dat$datum,x= Temp_dat%>% dplyr::select(-datum))
 Temp_yr_mdl<- mgcv::gam(yr_average ~ s(Year),data= subset(yr_dat,Year<2022), method = "ML")
 require(stats)
