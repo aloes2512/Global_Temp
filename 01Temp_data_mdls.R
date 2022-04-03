@@ -126,6 +126,10 @@ Temp_chg.72%>%ggplot(aes(x=datum))+
   labs(x="",y= expression(Temperature-Change~degree*C/a))
 #annual change rate 72 basis functions
 rng.72<-(Temp_chg.72$Temp.chg%>% range(na.rm = TRUE))*365.25# [1] -0.2349974  0.1869758
-
-
+Temp_data_list<- list(CET_dat= dat,
+                      Temp.18= Temp.fit.18,
+                      Temp.24= Temp.fit.24,
+                      Temp.36= Temp.fit.36,
+                      Temp.72=Temp.fit.72)
+saveRDS(Temp_data_list,file = "data/Temp_list.rds")
 
