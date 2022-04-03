@@ -1,11 +1,14 @@
 # Sunspot data WDC-SISO
+#data are edited in various formats .txt, .csv which can be found 
+#clicking on the graph opened in the browser
 #"https://wwwbis.sidc.be/silso/datafiles/SN_d_tot_V2.0.csv"
 library(tidyverse)
 SP_path<-"http://www.sidc.be/silso"
+
 browseURL(SP_path)# opens page for various downloads
 require(lubridate)
 # sunspot data
-SP_dat_path<- "/Users/alfloeffler/Desktop/Klima_Energiewende/Daten/SN_d_tot_V2.0.csv"
+SP_dat_path<- "/Users/alfloeffler/Google Drive/SN_d_tot_V2.0.csv"
 sunspot.daily<-read.csv2(SP_dat_path)%>%
   mutate(date = glue::glue("{Year}-{Month}-{Day}"),
          date = as.Date(date, format = "%Y-%m-%d"))%>%
@@ -36,8 +39,8 @@ SP_data.fit60<-SP_data%>%
 head(SP_data.fit60,1)
 names(SP_data.fit60)
 SP_data.fit60%>% ggplot(aes(x=date))+
-  geom_line(aes(y= SP_fit.60),col= "red",size =2)+
-  geom_point(aes(y=SP),size = 0.01,alpha= 0.05)+
+  geom_line(aes(y= SP_fit.60),col= "red",size =1)+
+  geom_point(aes(y=SP),size = 0.01,alpha= 0.07)+
   ggtitle("Sunspot Numbers",
           subtitle =" fiited with 60 gaussian basis functions" )
 head(SP_data.fit60)
@@ -55,21 +58,23 @@ SP_data$rwnm<-1:NROW(SP_data)# NROW = 7459
 #negbin method taken from url_negbin
 url_negbin<-"https://astrostatistics.psu.edu/su07/R/html/mgcv/html/gam.neg.bin.html"
 browseURL(url_negbin)
-
+require(MASS)
 negative.binomial(theta = 2,link="log")
 SP_mdl.nbin<- mgcv::gam(data=SP_data,formula = SP~s(rwnm,k=60),family=negbin(1),scale=1)
-summary(SP_mdl.nbin)# intercept 4.033414; exp(4.033414)= 56.45331
-AIC(SP_mdl.nbin)#[1] 719405.3 which is lower than with gaussian fit
+summary(SP_mdl.nbin)# intercept 4.033414; exp(4.033414)= 56.45331 edf 58.91
+AIC(SP_mdl.nbin)#[1] 719405.3 which is lower than with gaussian fit 746832.9 
 require(broom)
 SP_data0<-SP_data%>% na.omit()%>% dplyr::select(-c(SP))
+SP_fit<-SP_mdl.nbin%>%
+  augment()
 SP_mdl_data<-SP_data0%>% 
-  left_join(SP_mdl.nbin%>%
-              augment())%>% dplyr::select(date,SP,SP_fit.60,SP_NB=.fitted)
+  left_join(SP_fit, by= "rwnm")%>% dplyr::select(date,SP,SP_NB=.fitted)
 SP_mdl_data%>%
   ggplot(aes(x=date,y=exp(SP_NB)))+
   geom_line(aes(y= exp(SP_NB)),col="red")+
   geom_point(aes(y= SP),size=0.01,alpha = 0.01)+
   ggtitle("Sunspot Daily Observations",
-          subtitle = "fitted with negative binomial")+
+          subtitle = "fitted with negative binomial distribution")+
   labs(x="", y= "daily obs")
-
+ggsave(filename = "figs/SP_daily_NB.smooth.png")
+saveRDS(SP_mdl_data, file = "data/SP_data_mdl.rds")
