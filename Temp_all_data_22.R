@@ -4,7 +4,7 @@ library(tidyverse)
 centr_engl<-"https://www.metoffice.gov.uk/hadobs/hadcet/cetdl1772on.dat"
 browseURL(centr_engl)
 CET_data<- url(centr_engl)
-dt<-read.table(CET_data,, sep = "", skip = 0, header = FALSE,
+dt<-read.table(CET_data, sep = "", skip = 0, header = FALSE,
            fill = TRUE, na.string = c(-99.99, -99.9,-999.00))
 colnames(dt)<- c("Year","Day",month.abb)
 head(dt)
