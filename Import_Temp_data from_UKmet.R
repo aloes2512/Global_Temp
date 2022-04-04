@@ -1,4 +1,5 @@
-# Hadley Dataset
+# Hadley Dataset Import
+# uses read.table
 library(tidyverse)
 # for renewal
 centr_engl<-"https://www.metoffice.gov.uk/hadobs/hadcet/cetdl1772on.dat"
