@@ -9,3 +9,5 @@ SP_fit_negbin.R
 Temp_SP_model.R
 noaa_raw
 .Rapp.history
+ch4_crv_tower-insitu_1_ccgg_HourlyData.nc
+co2_crv_tower-insitu_1_ccgg_HourlyData.nc
