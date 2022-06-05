@@ -8,6 +8,7 @@ library(tidyverse)
 library(lubridate)
 library(rvest)
 browseURL(url_global)
+#MLO data
 CO2_ts<-  read_delim("~/Desktop/Klima_Energiewende/Daten/CO2_Zeitreihe_NOAA .csv",
 delim = ";", escape_double = FALSE, col_types = cols(molfrac = col_skip(),
 `(-999.99=` = col_skip(), no = col_skip()),

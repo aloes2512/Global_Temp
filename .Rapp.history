@@ -1,1 +1,2 @@
 load("/Users/alfloeffler/projects/Global_Temp/Temp_dat_fitted.rds")
+load("/Users/alfloeffler/projects/Global_Temp/updated_road_freight.rds")

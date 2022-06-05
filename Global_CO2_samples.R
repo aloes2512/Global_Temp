@@ -224,7 +224,19 @@ MLO_dat<- sel_tbl.27(MLO_data)%>% subset(CO2>200&CO2<450)
 MLO_plt<- discrt_plt(MLO_dat)
 MLO_plt+ geom_point(size=0.2,alpha=0.2)+
   geom_smooth(col="red",size=0.4)
-
+# add TAC UK data
+url_data_tac<-"https://gml.noaa.gov/aftp/data/trace_gases/co2/flask/surface/co2_tac_surface-flask_1_ccgg_event.txt"
+# read TAC data
+TAC_data<- read.table(url_data_tac)%>% as.data.frame()
+names<-c("sample_site_code sample_year sample_month sample_day sample_hour sample_minute sample_seconds sample_id sample_method parameter_formula analysis_group_abbr analysis_value analysis_uncertainty analysis_flag analysis_instrument analysis_year analysis_month analysis_day analysis_hour analysis_minute analysis_seconds sample_latitude sample_longitude sample_altitude sample_elevation sample_intake_height event_number
+")
+require(stringr)
+names<- str_split(names," ")[[1]]# select variables needed
+names(TAC_data)<-names
+summary(TAC_data)
+NOAA_CO2<-readRDS("~/projects/Global_Temp/data/NOAA_data.rds")
+NOAA_CO2$TAC<- TAC_CO2_dat
+summary(NOAA_CO2)
 # save imported data
 NOAA_CO2<- list(MLO=MLO_dat,
                 ZEP=ZEP_dat,
@@ -241,7 +253,24 @@ NOAA_CO2<- list(MLO=MLO_dat,
                 CHR= CHR_dat,
                 BRW= BRW_dat,
                 SMO=SMO_dat,
+                TAC=TAC_CO2_dat,
                 ABP=ABP_dat)
 saveRDS(NOAA_CO2,file = "~/projects/Global_Temp/data/NOAA_data.rds")
 summary(NOAA_CO2)
-
+GB_data<- bind_rows(NOAA_CO2$MHD,NOAA_CO2$TAC)
+GB_data%>% ggplot(aes(x=datetime,y= CO2))+
+  geom_point(size= 0.1, aes(col= site))+
+  geom_smooth(aes(col= site))+
+  ggtitle("CO2-Imission UK & Ireland",
+subtitle = "NOAA data sites: TAC MHD
+weekly means")+
+  labs(x="",y = "CO2 [ppm]")
+# select smaller time interval
+GB_data%>% subset(datetime>ymd("2014-01-01")&datetime<ymd("2016-12-31"))%>%
+  ggplot(aes(x=datetime,y= CO2))+
+  geom_point(size= 0.1, aes(col= site))+
+  geom_smooth(aes(col= site),method = gam, formula = y~s(x, k = 48))+
+  ggtitle("CO2-Imission UK & Ireland",
+          subtitle = "NOAA data sites: TAC MHD
+weekly means")+
+  labs(x="",y = "CO2 [ppm]")

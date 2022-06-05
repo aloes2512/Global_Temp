@@ -4,8 +4,16 @@ library(mgcv)
 library(broom)
 station_sites<-readRDS("~/projects/Global_Temp/data/station_sites.rds")
 names(station_sites)<- c("Code","Name","Country","Latitude","Longitude","Elevation","GMTime","Project") 
+station_sites<-station_sites%>% mutate(Code=as.factor(Code),Name=as.factor(Name),Country=as.factor(Country))
+summary(station_sites)
+summary(station_sites$Country)
+station_sites%>% subset(Country=="United Kingdom")# TAC lat 52.5 lon 1.14
+station_sites%>% subset(Country=="Ireland")# MHD lat 53.3 lon -9.90
+
 CO2_data.lst<- readRDS("~/projects/Global_Temp/data/NOAA_data.rds")
 summary(CO2_data.lst)
+CO2_data.lst$MHD # site in ireland
+CO2_data.lst$TAC # site located east england
 unique(station_sites$Code)
 head(station_sites)
 NROW(station_sites)
@@ -25,7 +33,7 @@ zugs<-tibble(Code="DEUB044",
 station_sites<-station_sites%>% bind_rows(zugs)
 saveRDS(station_sites,file = "~/projects/Global_Temp/data/station_sites.rds")
 saveRDS(CO2_data.lst,"~/projects/Global_Temp/data/NOAA_data.rds")
-site_nms<- names(CO2_data.lst)# 19 stations
+site_nms<- names(CO2_data.lst)# 20 stations
 
 # linear regression model
 CO2_regr_mdl<-CO2_data.lst%>%map(~lm(.$CO2~.$datetime,data = .))
@@ -48,3 +56,7 @@ CO2_data.lst$MLO%>% ggplot(aes(x=datetime, y= CO2))+
           subtitle = paste("Latitude:",loc_pms[4],"Longitude:",loc_pms[5]))+
   geom_point(size =0.1,alpha = 0.1)+
   geom_abline(intercept = 318. ,slope = 0.0000000566,col ="red")
+# calculate residuals from linear regression
+CO2_regr_mdl$MLO %>% fitted()
+require(broom)
+CO2_regr_mdl%>% map(augment)

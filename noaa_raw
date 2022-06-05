@@ -1,0 +1,895 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+    <meta name="DC.language" content="EN-US" >
+    <meta name="DC.creator" content="US Department of Commerce, NOAA, Global Monitoring Laboratory" >
+
+    
+    <meta name="DC.date.created"  content="2005-10-01" >
+    <meta name="DC.date.reviewed" content="2022-01-25" >
+
+
+    <meta name="keywords" content="noaa, national oceanic and atmospheric administration, earth system research, esrl, climate, air quality, numerical modeling, global warming, climate change, climate data, greenhouse effect, greenhouse data">
+
+
+    <meta name="description" content="The Global Monitoring Laboratory conducts research on greenhouse gas and carbon cycle feedbacks, changes in clouds, aerosols, and surface radiation, and recovery of stratospheric ozone. ">
+    <meta name="DC.description" content="The Global Monitoring Laboratory conducts research on greenhouse gas and carbon cycle feedbacks, changes in clouds, aerosols, and surface radiation, and recovery of stratospheric ozone. ">
+
+
+
+
+    <title>ESRL Global Monitoring Laboratory - FTP Navigator</title>
+    <meta name="DC.title" content="ESRL Global Monitoring Laboratory - FTP Navigator" >
+
+
+
+    <!-- Bootstrap -->
+<!--
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+-->
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- more css -->
+    <link href="/css/gmd.css" rel="stylesheet" media="all">
+    <link href="/css/header.css" rel="stylesheet" media="all">
+    <link href="/css/footer.css" rel="stylesheet" media="all">
+    <link href="/css/colors.css" rel="stylesheet" media="all">
+    <!--    <link href="/css/buttons.css" rel="stylesheet" media="all"> -->
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+<!--<link href="/css/collapse.css" rel="stylesheet" media="all"> -->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="/js/html5shiv.js"></script>
+      <script src="/js/respond.js"></script>
+    <![endif]-->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<!--
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+-->
+
+    <script src="/js/bootstrap.min.js"></script>
+
+
+
+    <!-- page-specific stylesheet -->
+    <link rel="stylesheet" href="style3.css" type="text/css">
+
+
+
+
+
+
+
+
+
+
+  </head>
+  <body>
+
+    
+<div id="major_header">
+
+    <div id="search" class="d-none d-md-block float-right">
+        <form action="https://search.usa.gov/search">
+	    <div class="form-group mb-1">
+		<input type="hidden" name="affiliate" value="noaa_esrl_gmd">
+		<input type="hidden" name="v:project" value="firstgov" >
+		<div class="input-group mb-1">
+		    <input type="text" name="query" id="query-field" autocomplete="off" class='form-control input-xs' placeholder="Search GML...">
+		    <div class="input-group-append">
+			<button type="submit" id='searchbutton' class="btn btn-secondary btn-sm"><i class="fa fa-search"></i><span class='sr-only'>Search</span></button>
+		    </div>
+		    <label for="query-field" class="sr-only"> Search GML:</label>
+		</div>
+	    </div>
+        </form>
+    </div>
+
+    <a href="http://www.noaa.gov" title="NOAA">
+        <img src="/webdata/logos/noaa_small.png" class="header_logo" alt='noaa logo'>
+    </a>
+
+    <div id='navbar-brand-title'>
+	<a href="/" title="GML" class="lab">Global Monitoring Laboratory</a><br>
+	<a href="https://www.esrl.noaa.gov" title="ESRL Home Page" class="division" >Earth System Research Laboratories</a>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+    
+<nav class="navbar navbar-gmd navbar-expand-lg navbar-dark sticky-top">
+  <a class="navbar-brand d-lg-none" href="#">Menu</a> 
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+<div class="container">
+
+  <div id="navbarNavDropdown" class="collapse navbar-collapse majornav">
+    <ul class="navbar-nav ml-auto mr-auto">
+
+	<li class="nav-item">
+<a href="/" class='nav-link' title='GML Home Page'>
+<span class='fa fa-home'></span><span class='d-lg-none'> Home</span>
+</a>
+</li>
+
+	<li class="nav-item dropdown">
+		<a href="#" class="nav-link dropdown-toggle" id="navbarabout" data-toggle="dropdown">About</a>
+		 <div class="dropdown-menu shadow collapse" aria-labelledby="navbarabout">
+			<a href="/about/aboutgml.html" class="dropdown-item">About GML</a>
+			<a href="/about/deia.html" class="dropdown-item">Diversity, Equity, and Inclusion</a>
+			<a class="dropdown-item" href="/review/">Science Reviews</a>
+			<a class="dropdown-item" href="/safety/">Safety Program</a>
+			<a href="http://www.esrl.noaa.gov/about/jobs.html" class="dropdown-item">Employment</a>
+			<a href="https://www.boulder.noaa.gov/" class="dropdown-item">Visiting</a>
+			<a href="/about/contacts.html" class="dropdown-item">Contact Us</a>
+			<!--			<a href="https://sites.google.com/a/noaa.gov/oar-esrl-gmd-intranet/"  class="dropdown-item">Intranet</a> -->
+			<a href="https://sites.google.com/noaa.gov/oar-gml-intranet/home"  class="dropdown-item">Intranet</a>
+		</div>
+	</li>
+
+	<li class="nav-item dropdown">
+		<a href="#" class="nav-link dropdown-toggle" id="navbarpeople" data-toggle="dropdown">People</a>
+		 <div class="dropdown-menu shadow collapse" aria-labelledby="navbarpeople">
+			<a href="/about/orgchart.html" class="dropdown-item">Organization</a>
+			<a href="/about/stafflist.html" class="dropdown-item">Staff</a>
+			<a href="/about/stafflist_group.html" class="dropdown-item">Staff by Group</a>
+			<a href="/about/employees.html" class="dropdown-item">Employee Spotlight</a>
+		</div>
+	</li>
+
+	<li class="nav-item dropdown">
+		<a href="#" class="nav-link dropdown-toggle" id="navbarresearch" data-toggle="dropdown">Research</a>
+		<div class="dropdown-menu shadow" aria-labelledby="navbarresearch">
+			<a class="dropdown-item" href="/about/research.html">Research Overview</a>
+			<a class="dropdown-item" href="/ccgg/">Greenhouse Gases</a>
+			<a class="dropdown-item" href="/hats/">Halocarbons and Trace Gases</a>
+			<a class="dropdown-item" href="/ozwv/">Ozone and Water Vapor</a>
+			<a class="dropdown-item" href="/grad/">Global Radiation and Aerosols</a>
+			<a class="dropdown-item" href="/publications/">Publications</a>
+		</div>
+	</li>
+
+	<li class="nav-item dropdown mega-dropdown">
+		<a href="#" class="nav-link dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">Observing Networks</a>
+		<div class="dropdown-menu shadow mega-dropdown-menu wide-menu">
+<div class="row">
+<div class="col-12 col-lg-3 bro">
+			<span class="menu-header">Overview</span>
+	<a class="dropdown-item" href="/about/networks.html">Observations Overview</a>
+	<a class="dropdown-item" href="/dv/site/">Measurement Sites</a>
+			<a class="dropdown-item" href="/about/campaigns.html">Field Campaigns</a>	
+</div>
+		<div class="col-12 col-lg-4 bro">
+			<span class="menu-header">Atmospheric Baseline Observatories</span>
+			<a class="dropdown-item" href="/obop/">Observatory Operations</a>
+			<a class="dropdown-item" href="/obop/brw/">Barrow, Alaska</a>
+			<a class="dropdown-item" href="/obop/mlo/">Mauna Loa, Hawaii</a>
+			<a class="dropdown-item" href="/obop/smo/">American Samoa</a>
+			<a class="dropdown-item" href="/obop/spo/">South Pole</a>
+		</div>
+		<div class="col-12 col-lg-5">
+			<span class="menu-header">Observing Networks</span>
+			<a class="dropdown-item" href="/ccgg/about.html">Global Greenhouse Gas Reference Network</a>
+			<a class="dropdown-item" href="/hats/flask/flasks.html">Halocarbons and Trace Gases</a>
+			<a class="dropdown-item" href="/grad/field.html">Surface Radiation</a>
+			<a class="dropdown-item" href="/aero/net/">Federated Aerosol Network</a>
+			<a class="dropdown-item" href="/ozwv/network.php">Ozone</a>
+			<a class="dropdown-item" href="/ozwv/wvap">Water Vapor</a>
+		</div>
+</div>
+</div>
+
+        </li>
+
+	<li class="nav-item dropdown">
+		<a href="#" class="nav-link dropdown-toggle" id="navbardata" data-toggle="dropdown">Data</a>
+		<div class="dropdown-menu shadow" aria-labelledby="navbarpeople">
+			<span class="menu-header ml-2">Data</span>
+			<a class="dropdown-item" href="/aftp/data/">Browse Data Archive</a>
+			<a class="dropdown-item" href="/dv/data/">Search for Data</a>
+			<a class="dropdown-item" href="/dv/data.html">Data by Research Program</a>
+			<a class="dropdown-item" href="/dv/site/">Measurement Sites</a>
+			<a class="dropdown-item" href="/ccgg/obspack/">ObsPack</a>
+			<span class="menu-header ml-2">Tools</span>
+			<a class="dropdown-item" href="/dv/iadv/">Data Viewer</a>
+			<a class="dropdown-item" href="/grad/solcalc/">Solar Calculator</a>
+			<span class="menu-header ml-2">Visualization</span>
+			<a class="dropdown-item" href="/dv/visualize.html">Data Visualization Pages</a>
+			<a class="dropdown-item" href="/dv/spo_oz/">South Pole Ozone Hole</a>
+		</div>
+        </li>
+
+	<li class="nav-item dropdown mega-dropdown">
+		<a href="#" class="nav-link dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">Products</a>
+		
+<div class="dropdown-menu shadow mega-dropdown-menu">
+    <div class="row">
+        <div class="col bro">
+            <span class="menu-header ml-2">Products</span>
+            <a class="dropdown-item" href="/aggi/">Greenhouse Gas Index</a>
+            <a class="dropdown-item" href="/odgi/">Ozone Depletion Index</a>
+            <a class="dropdown-item" href="/ccgg/ghgpower/">Power of Greenhouse Gases</a>
+            <a class="dropdown-item" href="/ccgg/trends/">Trends in CO<sub>2</sub>, CH<sub>4</sub>, N<sub>2</sub>O, SF<sub>6</sub></a>
+            <a class="dropdown-item" href="/ccgg/carbontracker/">CarbonTracker</a>
+            <a class="dropdown-item" href="/hats/US_emissiontracker/">US Potent GHG Tracker</a>
+            <a class="dropdown-item" href="/ccgg/obspack/">ObsPack</a>
+            <a class="dropdown-item" href="/grad/mloapt.html">Mauna Loa Apparent Transmission</a>
+            <a class="dropdown-item" href="/grad/snomelt.html">Barrow Snow Melt Dates</a>
+	    <a class="dropdown-item" href="/dv/spo_oz/">South Pole Ozone Hole</a>
+        </div>
+        <div class="col">
+            <span class="menu-header ml-2">Calibration Facilities</span>
+	    <a class="dropdown-item" href="/ccl/">WMO Central Calibration Laboratory</a>
+	    <a class="dropdown-item" href="/grad/calfacil/">Central UV Calibration Facility</a>
+	    <a class="dropdown-item" href="/grad/srf.html">Broadband Solar Calibration Facility</a>
+	    <a class="dropdown-item" href="/ozwv/dobson/">World Dobson Ozone Calibration Centre</a>
+        </div>
+    </div>
+</div>
+
+        </li>
+
+	<li class="nav-item dropdown">
+		<a href="#" class="nav-link dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">Information</a>
+    
+		<div class="dropdown-menu shadow dropdown-menu-right">
+			<a class="dropdown-item" href="/news/">News</a>
+			<a class="dropdown-item" href="/about/seminars.php">Seminars</a>
+			<a class="dropdown-item" href="/education/">Education/Outreach</a>
+			<a class="dropdown-item" href="/interns/">Student Opportunities</a>
+			<a class="dropdown-item" href="/education/faq_cat-1.html">FAQ's</a>
+			<a class="dropdown-item" href="/publications/">Publications</a>
+
+                        <span class="menu-header">Webcams</span>
+                        <a class="dropdown-item" href="/obop/spo/livecamera.html">South Pole Webcam</a>
+                        <a class="dropdown-item" href="/obop/mlo/livecam/livecam.html">Mauna Loa Webcams</a>
+                        <a class="dropdown-item" href="/obop/brw/livecamera.html">Barrow Webcam</a>
+
+			<span class="menu-header">Global Monitoring Annual Conference</span>
+			<a class="dropdown-item" href="/gmac/">
+				<div class="media">
+					<img class="mr-1 mt-1" src="/images/gmac_logo_vsmall.png" alt="GMAC">
+					<div class="media-body">
+						The 50<sup>th</sup> Conference will be held online May 23 - 27, 2022
+					</div>
+				</div>
+			</a>
+		</div>
+	</li>
+
+    </ul>
+  </div>
+  </div>
+</nav>
+
+
+
+
+    <div class="container">
+
+
+
+	
+
+
+<div class="pageheader">GML Data Finder</div>
+
+<p>
+	Use this web page to find specific data files available from the public ftp file 
+	archive of the ESRL Global Monitoring Laboratory.  
+	Alternatively, you can check our <a href="/dv/data.html">Data by research program</a> page
+	for specific areas of data that can be downloaded. 
+	Click on the icons (
+	<span class='fas fa-folder-open'></span> or
+	<span class='fas fa-file-download'></span>
+	)
+	under the 'Data' table heading in the dataset description boxes to either download 
+	the data file desired, or take you to the appropriate directory on the ftp server, 
+	where you can select specific data files.
+</p>
+
+<br>
+
+<div class="small gray">Select from the following lists to narrow your search.</div>
+
+    <div class='row no-gutters mb-2'>
+    <div class='col-md-3'>
+    <div class='card'>
+      <div class='card-header'>
+      <a href='//gml.noaa.gov/dv/data/index.php?parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages' title='Clear this selection'><span class='fas fa-check-square check'></span></a>
+         <span class='h6'>Category</span>
+      </div>
+      <div class='card-body'>
+         <div class='scrollbox'>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages">Greenhouse Gases</a><span class='small mediumgray'> (15)</span><br>
+         </div>
+      </div>
+    </div>
+    </div>
+    <div class='col-md-3'>
+    <div class='card'>
+      <div class='card-header'>
+      <a href='//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&type=Insitu&frequency=Hourly%2BAverages' title='Clear this selection'><span class='fas fa-check-square check'></span></a>
+         <span class='h6'>Parameter</span>
+<span class='sitehelp fa fa-question-circle' data-content='Datasets with more than one parameter will be under `Multiple`' data-toggle='popover'>&nbsp;</span>      </div>
+      <div class='card-body'>
+         <div class='scrollbox'>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages">Carbon Dioxide</a><span class='small mediumgray'> (15)</span><br>
+         </div>
+      </div>
+    </div>
+    </div>
+    <div class='col-md-2'>
+    <div class='card'>
+      <div class='card-header'>
+      <a href='//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&frequency=Hourly%2BAverages' title='Clear this selection'><span class='fas fa-check-square check'></span></a>
+         <span class='h6'>Type</span>
+      </div>
+      <div class='card-body'>
+         <div class='scrollbox'>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages">Insitu</a><span class='small mediumgray'> (15)</span><br>
+         </div>
+      </div>
+    </div>
+    </div>
+    <div class='col-md-2'>
+    <div class='card'>
+      <div class='card-header'>
+      <a href='//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu' title='Clear this selection'><span class='fas fa-check-square check'></span></a>
+         <span class='h6'>Frequency</span>
+      </div>
+      <div class='card-body'>
+         <div class='scrollbox'>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages">Hourly Averages</a><span class='small mediumgray'> (15)</span><br>
+         </div>
+      </div>
+    </div>
+    </div>
+    <div class='col-md-2'>
+    <div class='card'>
+      <div class='card-header'>
+         <span class='h6'>Site</span>
+<span class='sitehelp fa fa-question-circle' data-content='Datasets with more than one site will be under `Multiple`' data-toggle='popover'>&nbsp;</span>      </div>
+      <div class='card-body'>
+         <div class='scrollbox'>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages&site=AMT" title="Argyle, Maine, United States">AMT</a><span class='small mediumgray'> (1)</span><br>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages&site=BAO" title="Boulder Atmospheric Observatory, Colorado, United States">BAO</a><span class='small mediumgray'> (1)</span><br>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages&site=BRW" title="Barrow Atmospheric Baseline Observatory, United States">BRW</a><span class='small mediumgray'> (1)</span><br>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages&site=CRV" title="Carbon in Arctic Reservoirs Vulnerability Experiment (CARVE), United States">CRV</a><span class='small mediumgray'> (1)</span><br>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages&site=ITN" title="Grifton, North Carolina, United States">ITN</a><span class='small mediumgray'> (1)</span><br>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages&site=LEF" title="Park Falls, Wisconsin, United States">LEF</a><span class='small mediumgray'> (1)</span><br>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages&site=MLO" title="Mauna Loa, Hawaii, United States">MLO</a><span class='small mediumgray'> (1)</span><br>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages&site=Multiple" title="Multiple Sites">Multiple</a><span class='small mediumgray'> (1)</span><br>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages&site=SCT" title="Beech Island, South Carolina, United States">SCT</a><span class='small mediumgray'> (1)</span><br>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages&site=SMO" title="Tutuila, American Samoa">SMO</a><span class='small mediumgray'> (1)</span><br>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages&site=SNP" title="Shenandoah National Park, United States">SNP</a><span class='small mediumgray'> (1)</span><br>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages&site=SPO" title="South Pole, Antarctica, United States">SPO</a><span class='small mediumgray'> (1)</span><br>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages&site=WBI" title="West Branch, Iowa, United States">WBI</a><span class='small mediumgray'> (1)</span><br>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages&site=WGC" title="Walnut Grove, California, United States">WGC</a><span class='small mediumgray'> (1)</span><br>
+         <a href="//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages&site=WKT" title="Moody, Texas, United States">WKT</a><span class='small mediumgray'> (1)</span><br>
+         </div>
+      </div>
+    </div>
+    </div>
+</div>
+   <div class='row mb-3'>   <div class='col-md-6'>   <form class='form-inline' action='/dv/data/index.php'>
+      <span class='small gray'>&nbsp; or enter search term: </span>
+      <input type='hidden' value='Greenhouse+Gases' name='category'>
+      <input type='hidden' value='Carbon+Dioxide' name='parameter_name'>
+      <input type='hidden' value='Insitu' name='type'>
+      <input type='hidden' value='Hourly+Averages' name='frequency'>
+      <label for='searchbox' class='sr-only'>Search</label>
+      <input class='form-control input-xs ml-1' name='search' value='' id='searchbox' style='width: 180px;'>
+      <button type='submit' class='btn btn-success btn-sm ml-2'><span class='fas fa-search'></span> Search</button>
+   </form>
+   </div>
+      <div class='col-md-6'>      <a href='/dv/site/' class='small font-italic float-right'>      Information about site codes can be found here. <span class='fas fa-info-circle'></span></a>
+      </div>
+      </div>
+<span class='total'>15</span> Datasets filtered from 3397 originally.  <a class='btn btn-secondary  btn-sm ml-2' href='index.php'>Reset all Filters</a>
+
+<div style='float:right; margin-top: 10px;' class='xsmall mediumgray'>
+   <form action='/dv/data/index.php' name='sortform'>
+      <input type='hidden' value='Greenhouse+Gases' name='category'>
+      <input type='hidden' value='Carbon+Dioxide' name='parameter_name'>
+      <input type='hidden' value='Insitu' name='type'>
+      <input type='hidden' value='Hourly+Averages' name='frequency'>
+   <label for='sortbox'>Sort Results By: </label>
+   <select onchange='document.sortform.submit()' name='sortby' id='sortbox'>
+   <option value='category' >Category</option>
+   <option value='parameter_name' >Parameter_name</option>
+   <option value='type' >Type</option>
+   <option value='frequency' >Frequency</option>
+   <option value='site' selected>Site</option>
+   <option value='year' >Year</option>
+   </select>
+   </form>
+</div>
+
+<hr style='margin: 4px;'>
+<div>    <span class='indent float-left small mediumgray' style='margin-top: 10px;'> Displaying [1 - 15] of 15 records. &nbsp;&nbsp;&nbsp; </span>
+   <span class='float-right xsmall mediumgray' style='margin-top: 10px;'>
+   <label for='perpagetop'>Records per page:</label>
+   <select onchange="window.location='//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages&amp;perpage='+this[this.selectedIndex].value;return false" id='perpagetop'>
+   <option value='10' > 10 </option>
+   <option value='20' > 20 </option>
+   <option value='25' > 25 </option>
+   <option value='50' selected> 50 </option>
+   <option value='75' > 75 </option>
+   <option value='100' > 100 </option>
+   <option value='200' > 200 </option>
+   </select>
+   </span>
+
+</div>
+<div class='clearfix'></div>
+<div class='table-responsive'>
+<table class='table table-bordered table-striped table-header'>
+<thead>
+   <tr>
+	<th style='width: 16px;'><span class='sr-only'>Dataset Number</span></th>
+	<th>Site</th>
+	<th>Category</th>
+	<th>Name</th>
+	<th>Type</th>
+	<th>Frequency</th>
+	<th>Year</th>
+	<th>Data</th>
+	<th><span class='sr-only'>Readme</span></th>
+   </tr>
+</thead>
+<tbody>   <tr>
+      <td>
+         <span class='small gray'>1</span><br>
+      </td>
+      <td>
+         <span class='mediumred font-weight-bold'>Argyle, Maine, United States (AMT)</span><br>
+         <span class='description'>Continuous In-situ co2 analyzer from Towers.</span>
+      </td>
+      <td>Greenhouse Gases</td>
+      <td class='darkgreen'>Carbon Dioxide<br>(CO<sub>2</sub>)</td>
+      <td>Insitu</td>
+      <td>Hourly Averages</td>
+      <td>Multiple</td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_amt_tower-insitu_1_ccgg_HourlyData.nc' title='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_amt_tower-insitu_1_ccgg_HourlyData.nc'>
+         <span class='fas fa-file-download h5'></span><span class='sr-only'>Download</span>
+         </a>
+      </td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/README_tower_insitu_co2.html' title='View the README file for this dataset'>
+         <span class='fas fa-info-circle h5'></span><span class='sr-only'>Readme</span></a>
+      </td>
+   </tr>
+   <tr>
+      <td>
+         <span class='small gray'>2</span><br>
+      </td>
+      <td>
+         <span class='mediumred font-weight-bold'>Boulder Atmospheric Observatory, Colorado, United States (BAO)</span><br>
+         <span class='description'>Continuous In-situ co2 analyzer from Towers.</span>
+      </td>
+      <td>Greenhouse Gases</td>
+      <td class='darkgreen'>Carbon Dioxide<br>(CO<sub>2</sub>)</td>
+      <td>Insitu</td>
+      <td>Hourly Averages</td>
+      <td>Multiple</td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_bao_tower-insitu_1_ccgg_HourlyData.nc' title='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_bao_tower-insitu_1_ccgg_HourlyData.nc'>
+         <span class='fas fa-file-download h5'></span><span class='sr-only'>Download</span>
+         </a>
+      </td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/README_tower_insitu_co2.html' title='View the README file for this dataset'>
+         <span class='fas fa-info-circle h5'></span><span class='sr-only'>Readme</span></a>
+      </td>
+   </tr>
+   <tr>
+      <td>
+         <span class='small gray'>3</span><br>
+      </td>
+      <td>
+         <span class='mediumred font-weight-bold'>Barrow Atmospheric Baseline Observatory, United States (BRW)</span><br>
+         <span class='description'>In-situ co2 hourly averages</span>
+      </td>
+      <td>Greenhouse Gases</td>
+      <td class='darkgreen'>Carbon Dioxide<br>(CO<sub>2</sub>)</td>
+      <td>Insitu</td>
+      <td>Hourly Averages</td>
+      <td>Multiple</td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/surface/brw/co2_brw_surface-insitu_1_ccgg_HourlyData.txt' title='/aftp/data/trace_gases/co2/in-situ/surface/brw/co2_brw_surface-insitu_1_ccgg_HourlyData.txt'>
+         <span class='fas fa-file-download h5'></span><span class='sr-only'>Download</span>
+         </a>
+      </td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/surface/README_surface_insitu_co2.html' title='View the README file for this dataset'>
+         <span class='fas fa-info-circle h5'></span><span class='sr-only'>Readme</span></a>
+      </td>
+   </tr>
+   <tr>
+      <td>
+         <span class='small gray'>4</span><br>
+      </td>
+      <td>
+         <span class='mediumred font-weight-bold'>Carbon in Arctic Reservoirs Vulnerability Experiment (CARVE), United States (CRV)</span><br>
+         <span class='description'>Continuous In-situ co2 analyzer from Towers.</span>
+      </td>
+      <td>Greenhouse Gases</td>
+      <td class='darkgreen'>Carbon Dioxide<br>(CO<sub>2</sub>)</td>
+      <td>Insitu</td>
+      <td>Hourly Averages</td>
+      <td>Multiple</td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_crv_tower-insitu_1_ccgg_HourlyData.nc' title='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_crv_tower-insitu_1_ccgg_HourlyData.nc'>
+         <span class='fas fa-file-download h5'></span><span class='sr-only'>Download</span>
+         </a>
+      </td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/README_tower_insitu_co2.html' title='View the README file for this dataset'>
+         <span class='fas fa-info-circle h5'></span><span class='sr-only'>Readme</span></a>
+      </td>
+   </tr>
+   <tr>
+      <td>
+         <span class='small gray'>5</span><br>
+      </td>
+      <td>
+         <span class='mediumred font-weight-bold'>Grifton, North Carolina, United States (ITN)</span><br>
+         <span class='description'>Continuous In-situ co2 analyzer from Towers.</span>
+      </td>
+      <td>Greenhouse Gases</td>
+      <td class='darkgreen'>Carbon Dioxide<br>(CO<sub>2</sub>)</td>
+      <td>Insitu</td>
+      <td>Hourly Averages</td>
+      <td>Multiple</td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_itn_tower-insitu_1_ccgg_HourlyData.nc' title='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_itn_tower-insitu_1_ccgg_HourlyData.nc'>
+         <span class='fas fa-file-download h5'></span><span class='sr-only'>Download</span>
+         </a>
+      </td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/README_tower_insitu_co2.html' title='View the README file for this dataset'>
+         <span class='fas fa-info-circle h5'></span><span class='sr-only'>Readme</span></a>
+      </td>
+   </tr>
+   <tr>
+      <td>
+         <span class='small gray'>6</span><br>
+      </td>
+      <td>
+         <span class='mediumred font-weight-bold'>Park Falls, Wisconsin, United States (LEF)</span><br>
+         <span class='description'>Continuous In-situ co2 analyzer from Towers.</span>
+      </td>
+      <td>Greenhouse Gases</td>
+      <td class='darkgreen'>Carbon Dioxide<br>(CO<sub>2</sub>)</td>
+      <td>Insitu</td>
+      <td>Hourly Averages</td>
+      <td>Multiple</td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_lef_tower-insitu_1_ccgg_HourlyData.nc' title='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_lef_tower-insitu_1_ccgg_HourlyData.nc'>
+         <span class='fas fa-file-download h5'></span><span class='sr-only'>Download</span>
+         </a>
+      </td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/README_tower_insitu_co2.html' title='View the README file for this dataset'>
+         <span class='fas fa-info-circle h5'></span><span class='sr-only'>Readme</span></a>
+      </td>
+   </tr>
+   <tr>
+      <td>
+         <span class='small gray'>7</span><br>
+      </td>
+      <td>
+         <span class='mediumred font-weight-bold'>Mauna Loa, Hawaii, United States (MLO)</span><br>
+         <span class='description'>In-situ co2 hourly averages</span>
+      </td>
+      <td>Greenhouse Gases</td>
+      <td class='darkgreen'>Carbon Dioxide<br>(CO<sub>2</sub>)</td>
+      <td>Insitu</td>
+      <td>Hourly Averages</td>
+      <td>Multiple</td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/surface/mlo/co2_mlo_surface-insitu_1_ccgg_HourlyData.txt' title='/aftp/data/trace_gases/co2/in-situ/surface/mlo/co2_mlo_surface-insitu_1_ccgg_HourlyData.txt'>
+         <span class='fas fa-file-download h5'></span><span class='sr-only'>Download</span>
+         </a>
+      </td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/surface/README_surface_insitu_co2.html' title='View the README file for this dataset'>
+         <span class='fas fa-info-circle h5'></span><span class='sr-only'>Readme</span></a>
+      </td>
+   </tr>
+   <tr>
+      <td>
+         <span class='small gray'>8</span><br>
+      </td>
+      <td>
+         <span class='mediumred font-weight-bold'>Multiple Sites</span><br>
+         <span class='description'>Continuous In-situ co2 analyzer from Towers.</span>
+      </td>
+      <td>Greenhouse Gases</td>
+      <td class='darkgreen'>Carbon Dioxide<br>(CO<sub>2</sub>)</td>
+      <td>Insitu</td>
+      <td>Hourly Averages</td>
+      <td>Multiple</td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/co2_tower-insitu_1_ccgg_netCDF.zip' title='/aftp/data/trace_gases/co2/in-situ/tower/co2_tower-insitu_1_ccgg_netCDF.zip'>
+         <span class='fas fa-file-download h5'></span><span class='sr-only'>Download</span>
+         </a>
+      </td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/README_tower_insitu_co2.html' title='View the README file for this dataset'>
+         <span class='fas fa-info-circle h5'></span><span class='sr-only'>Readme</span></a>
+      </td>
+   </tr>
+   <tr>
+      <td>
+         <span class='small gray'>9</span><br>
+      </td>
+      <td>
+         <span class='mediumred font-weight-bold'>Beech Island, South Carolina, United States (SCT)</span><br>
+         <span class='description'>Continuous In-situ co2 analyzer from Towers.</span>
+      </td>
+      <td>Greenhouse Gases</td>
+      <td class='darkgreen'>Carbon Dioxide<br>(CO<sub>2</sub>)</td>
+      <td>Insitu</td>
+      <td>Hourly Averages</td>
+      <td>Multiple</td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_sct_tower-insitu_1_ccgg_HourlyData.nc' title='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_sct_tower-insitu_1_ccgg_HourlyData.nc'>
+         <span class='fas fa-file-download h5'></span><span class='sr-only'>Download</span>
+         </a>
+      </td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/README_tower_insitu_co2.html' title='View the README file for this dataset'>
+         <span class='fas fa-info-circle h5'></span><span class='sr-only'>Readme</span></a>
+      </td>
+   </tr>
+   <tr>
+      <td>
+         <span class='small gray'>10</span><br>
+      </td>
+      <td>
+         <span class='mediumred font-weight-bold'>Tutuila, American Samoa (SMO)</span><br>
+         <span class='description'>In-situ co2 hourly averages</span>
+      </td>
+      <td>Greenhouse Gases</td>
+      <td class='darkgreen'>Carbon Dioxide<br>(CO<sub>2</sub>)</td>
+      <td>Insitu</td>
+      <td>Hourly Averages</td>
+      <td>Multiple</td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/surface/smo/co2_smo_surface-insitu_1_ccgg_HourlyData.txt' title='/aftp/data/trace_gases/co2/in-situ/surface/smo/co2_smo_surface-insitu_1_ccgg_HourlyData.txt'>
+         <span class='fas fa-file-download h5'></span><span class='sr-only'>Download</span>
+         </a>
+      </td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/surface/README_surface_insitu_co2.html' title='View the README file for this dataset'>
+         <span class='fas fa-info-circle h5'></span><span class='sr-only'>Readme</span></a>
+      </td>
+   </tr>
+   <tr>
+      <td>
+         <span class='small gray'>11</span><br>
+      </td>
+      <td>
+         <span class='mediumred font-weight-bold'>Shenandoah National Park, United States (SNP)</span><br>
+         <span class='description'>Continuous In-situ co2 analyzer from Towers.</span>
+      </td>
+      <td>Greenhouse Gases</td>
+      <td class='darkgreen'>Carbon Dioxide<br>(CO<sub>2</sub>)</td>
+      <td>Insitu</td>
+      <td>Hourly Averages</td>
+      <td>Multiple</td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_snp_tower-insitu_1_ccgg_HourlyData.nc' title='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_snp_tower-insitu_1_ccgg_HourlyData.nc'>
+         <span class='fas fa-file-download h5'></span><span class='sr-only'>Download</span>
+         </a>
+      </td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/README_tower_insitu_co2.html' title='View the README file for this dataset'>
+         <span class='fas fa-info-circle h5'></span><span class='sr-only'>Readme</span></a>
+      </td>
+   </tr>
+   <tr>
+      <td>
+         <span class='small gray'>12</span><br>
+      </td>
+      <td>
+         <span class='mediumred font-weight-bold'>South Pole, Antarctica, United States (SPO)</span><br>
+         <span class='description'>In-situ co2 hourly averages</span>
+      </td>
+      <td>Greenhouse Gases</td>
+      <td class='darkgreen'>Carbon Dioxide<br>(CO<sub>2</sub>)</td>
+      <td>Insitu</td>
+      <td>Hourly Averages</td>
+      <td>Multiple</td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/surface/spo/co2_spo_surface-insitu_1_ccgg_HourlyData.txt' title='/aftp/data/trace_gases/co2/in-situ/surface/spo/co2_spo_surface-insitu_1_ccgg_HourlyData.txt'>
+         <span class='fas fa-file-download h5'></span><span class='sr-only'>Download</span>
+         </a>
+      </td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/surface/README_surface_insitu_co2.html' title='View the README file for this dataset'>
+         <span class='fas fa-info-circle h5'></span><span class='sr-only'>Readme</span></a>
+      </td>
+   </tr>
+   <tr>
+      <td>
+         <span class='small gray'>13</span><br>
+      </td>
+      <td>
+         <span class='mediumred font-weight-bold'>West Branch, Iowa, United States (WBI)</span><br>
+         <span class='description'>Continuous In-situ co2 analyzer from Towers.</span>
+      </td>
+      <td>Greenhouse Gases</td>
+      <td class='darkgreen'>Carbon Dioxide<br>(CO<sub>2</sub>)</td>
+      <td>Insitu</td>
+      <td>Hourly Averages</td>
+      <td>Multiple</td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_wbi_tower-insitu_1_ccgg_HourlyData.nc' title='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_wbi_tower-insitu_1_ccgg_HourlyData.nc'>
+         <span class='fas fa-file-download h5'></span><span class='sr-only'>Download</span>
+         </a>
+      </td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/README_tower_insitu_co2.html' title='View the README file for this dataset'>
+         <span class='fas fa-info-circle h5'></span><span class='sr-only'>Readme</span></a>
+      </td>
+   </tr>
+   <tr>
+      <td>
+         <span class='small gray'>14</span><br>
+      </td>
+      <td>
+         <span class='mediumred font-weight-bold'>Walnut Grove, California, United States (WGC)</span><br>
+         <span class='description'>Continuous In-situ co2 analyzer from Towers.</span>
+      </td>
+      <td>Greenhouse Gases</td>
+      <td class='darkgreen'>Carbon Dioxide<br>(CO<sub>2</sub>)</td>
+      <td>Insitu</td>
+      <td>Hourly Averages</td>
+      <td>Multiple</td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_wgc_tower-insitu_1_ccgg_HourlyData.nc' title='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_wgc_tower-insitu_1_ccgg_HourlyData.nc'>
+         <span class='fas fa-file-download h5'></span><span class='sr-only'>Download</span>
+         </a>
+      </td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/README_tower_insitu_co2.html' title='View the README file for this dataset'>
+         <span class='fas fa-info-circle h5'></span><span class='sr-only'>Readme</span></a>
+      </td>
+   </tr>
+   <tr>
+      <td>
+         <span class='small gray'>15</span><br>
+      </td>
+      <td>
+         <span class='mediumred font-weight-bold'>Moody, Texas, United States (WKT)</span><br>
+         <span class='description'>Continuous In-situ co2 analyzer from Towers.</span>
+      </td>
+      <td>Greenhouse Gases</td>
+      <td class='darkgreen'>Carbon Dioxide<br>(CO<sub>2</sub>)</td>
+      <td>Insitu</td>
+      <td>Hourly Averages</td>
+      <td>Multiple</td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_wkt_tower-insitu_1_ccgg_HourlyData.nc' title='/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_wkt_tower-insitu_1_ccgg_HourlyData.nc'>
+         <span class='fas fa-file-download h5'></span><span class='sr-only'>Download</span>
+         </a>
+      </td>
+      <td>
+         <a href='/aftp/data/trace_gases/co2/in-situ/tower/README_tower_insitu_co2.html' title='View the README file for this dataset'>
+         <span class='fas fa-info-circle h5'></span><span class='sr-only'>Readme</span></a>
+      </td>
+   </tr>
+</tbody></table>
+</div>
+
+
+<div>    <span class='indent float-left small mediumgray' style='margin-top: 10px;'> Displaying [1 - 15] of 15 records. &nbsp;&nbsp;&nbsp; </span>
+   <span class='float-right xsmall mediumgray' style='margin-top: 10px;'>
+   <label for='perpagebottom'>Records per page:</label>
+   <select onchange="window.location='//gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu&frequency=Hourly%2BAverages&amp;perpage='+this[this.selectedIndex].value;return false" id='perpagebottom'>
+   <option value='10' > 10 </option>
+   <option value='20' > 20 </option>
+   <option value='25' > 25 </option>
+   <option value='50' selected> 50 </option>
+   <option value='75' > 75 </option>
+   <option value='100' > 100 </option>
+   <option value='200' > 200 </option>
+   </select>
+   </span>
+
+</div>
+<div class='clearfix'></div><br>
+<span class='small gray font-italic'>Dataset list last updated on 14 May 2022<br>
+Please send feedback on this page to <a href='mailto:webmaster.gml@noaa.gov'>ESRL/GML Webmaster</a></span>
+
+<script>$('.sitehelp').popover({html: true}); </script></div>
+
+
+<footer class="footer" role="contentinfo">
+
+
+<nav class="navbar navbar-expand-md navbar-footer" >
+
+  <div class="container">
+    <ul class="navbar-nav">
+
+	<li class="footer-content"><a class="nav-link" href="/about/research.html">Research</a></li>
+	<li class="footer-content"><a class="nav-link" href="/dv/data.html">Data</a></li>
+	<li class="footer-content"><a class="nav-link" href="/obop/">Observatory Operations</a></li>
+	<li class="footer-content"><a class="nav-link" href="/education/">Education</a></li>
+	<li class="footer-content"><a class="nav-link" href="/news/">News</a></li>
+	<li class="footer-content"><a class="nav-link" href="/publications/browse.php">Publications</a></li>
+    </ul>
+
+  </div>
+</nav>
+
+  <div class="footer-secondary_section">
+<div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <img class="footer-logo" src="/webdata/logos/noaa_small.png" alt="NOAA logo">
+        <p class="footer-logo-heading" style="margin-top: 0;">
+           <a href="http://www.esrl.noaa.gov/">Earth System Research Laboratories</a><br>
+           <a href="/">Global Monitoring Laboratory</a>
+        </p>
+
+        <p><a href="https://www.noaa.gov/protecting-your-privacy">Privacy Policy</a> &nbsp;| &nbsp;
+           <a href="https://www.noaa.gov/accessibility">Accessibility</a> &nbsp;| &nbsp;
+           <a href="/about/disclaimer.html">Disclaimer</a> &nbsp;| &nbsp;
+           <a href="https://www.usa.gov">Usa.gov</a>
+        </p>
+      </div>
+      <div class="col-md-4 footer-right-section">
+<p>
+                <a href="https://www.facebook.com/NOAAESRL" title="ESRL Facebook" aria-label="ESRL Facebook">&nbsp;<i class="fab fa-facebook-f fa-2x social"></i></a>
+                <a href="https://twitter.com/NOAA_ESRL" title="ESRL Twitter" aria-label="ESRL Twitter"> <i class="fab fa-2x fa-twitter social"></i></a>
+                <a href="https://www.youtube.com/user/NOAAESRL" title="ESRL Youtube Channel" aria-label="ESRL Youtube"> <i class="fab fa-2x fa-youtube social"></i></a>
+                <a href="https://www.flickr.com/photos/noaa_esrl" title="ESRL Flickr" aria-label="ESRL Flickr"> <i class="fab fa-2x fa-flickr social"></i></a>
+
+</p>
+          <p><a href="/sitemap">Site Contents</a></p>
+          <p><a href="/about/contacts.html">Contact Us</a> &nbsp;| &nbsp;<a href="mailto:webmaster.gml@noaa.gov">Webmaster</a></p>
+
+      </div>
+    </div>
+        <ol class="breadcrumb hidden-xs" id="minor_footer">
+                <li class="breadcrumb-item" ><a href="https://www.commerce.gov/">U.S. Department of Commerce</a></li>
+                <li class="breadcrumb-item"><a href="http://www.noaa.gov/">National Oceanic &amp; Atmospheric Administration</a></li>
+                <li class="breadcrumb-item"><a href="https://research.noaa.gov/">NOAA Research</a></li>
+        </ol>
+
+  </div>
+  </div>
+
+</footer>
+
+</body>
+
+
+</html>
+
