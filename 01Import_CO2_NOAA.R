@@ -245,7 +245,6 @@ CO2_m%>% ggplot(aes(x=mnth,y=CO2.m))+
   geom_point()
 # update Schauinsland data
 CO2_data.lst$DEUB004<-CO2_data.lst$SiLand
-save(CO2_data.lst,file.path(dat_path,"NOAA_data.rds"))
 CO2_data.lst<-readRDS(file.path("data","NOAA_data.rds"))
 #SPO site data corrrect
 SPO_alt<-2810
