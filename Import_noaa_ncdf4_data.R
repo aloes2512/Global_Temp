@@ -1,18 +1,20 @@
-
-ncdf4-package {ncdf4}
-#R for Earth System Science
-browseURL("https://pjbartlein.github.io/REarthSysSci/netCDF.html#convert-the-time-variable")
 # vignette on package ncdf4 
-ncdf4_vignette<-"http://dwpierce.com/software"
-browseURL(ncdf4_vignette)
+browseURL("https://pjbartlein.github.io/REarthSysSci/netCDF.html#convert-the-time-variable")
+#nc special format for gridded earth science data
+#ncdf4-package {ncdf4}
+install.packages("ncdf4")
+library(ncdf4)
+#R for Earth System Science
+# ESRL (Earth System Research Laboratories )
 # data source: NOAA ESRL global monitoring laboratory 
 ESL_sites<-"https://gml.noaa.gov/dv/site/"
 browseURL(ESL_sites)
-link<-"https://gml.noaa.gov/aftp/data/trace_gases/ch4/in-situ/tower/nc/ch4_crv_tower-insitu_1_ccgg_HourlyData.nc"
 CO2_link<- "https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_crv_tower-insitu_1_ccgg_HourlyData.nc"
+# loads nc file to download
 browseURL(CO2_link)# loads data to download
-download.file(CO2_link,"co2_crv_tower-insitu_1_ccgg_HourlyData.nc")# file is @ ~/projects/Global_Temp/
-ch4_crv <-nc_open("ch4_crv_tower-insitu_1_ccgg_HourlyData.nc")
+#loads nc file to destination ~/projects/Global_Temp/
+download.file(CO2_link,destfile = "~/projects/Global_Temp/co2_crv_tower-insitu_1_ccgg_HourlyData.nc")# file is @ ~/projects/Global_Temp/
+# reads data into R
 co2_crv <-nc_open("co2_crv_tower-insitu_1_ccgg_HourlyData.nc")
 time<-ncvar_get(co2_crv,"time")
 utc_time_co2<- as.POSIXct(time,origin="1970-01-01",tz="UTC")
@@ -116,3 +118,5 @@ dlname <- ncatt_get(f2,"ta","long_name")
 dunits <- ncatt_get(f2,"ta","units")
 fillvalue <- ncatt_get(f2,"ta","_FillValue")
 ls()# current workspace
+# save all noaa data 
+saveRDS(CO2_data.lst,file = file.path("data","NOAA_data.rds"))

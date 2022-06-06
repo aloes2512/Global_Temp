@@ -7,7 +7,11 @@ CET_daily_Temp.R
 Temp_data_mdls.R
 SP_fit_negbin.R
 Temp_SP_model.R
+<<<<<<< HEAD
 noaa_raw
 .Rapp.history
 ch4_crv_tower-insitu_1_ccgg_HourlyData.nc
 co2_crv_tower-insitu_1_ccgg_HourlyData.nc
+=======
+NB_mlo_CO2.R
+>>>>>>> 4d0002a603ef85bcf8bb4b01bba6c68d14da5da3
