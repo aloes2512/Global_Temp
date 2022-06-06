@@ -37,26 +37,22 @@ CO2_yr.mean%>% ggplot(aes(x=yr,y=CO2))+
   ggtitle("CO2-concentration  @ MAUNA LOA",
           subtitle = " published P.Tans:: pieter.tans@noaa.gov")+
   labs(x="",y="CO2[ppm]")
-
+head(CO2_yr.mean)
 summary(CO2_ts)
 # plot weekly means
-CO2_ts%>% mutate(wk= floor_date(datetime, unit ="week"))
-head(CO2_ts,10)
-CO2_ts%>% ggplot(aes(x=week.date,y=CO2))+
-  geom_line()
-#CO2 statista
-CO2.yr<-read_xls("~/desktop/Klima_Energiewende/Daten/CO2_Jahreswerte_statista.xls",col_names = F)
-colnames(CO2.yr)<- c("yr","CO2")
-CO2.yr<-CO2.yr%>% mutate(date= ymd(paste0(yr,"-01-01")))
-#CO2.yr<-CO2.yr%>% mutate(yr=as_factor(yr))
-summary(CO2.yr)
-CO2.yr%>% left_join(CO2_yr.mean)
-Co2.yr_plt<-CO2.yr%>% ggplot(aes(x=date,y=CO2))+
-  geom_line()
-Co2.yr_plt+  geom_line(aes(x=week.date,y=CO2),data=CO2_ts,col="red")+
-  ggtitle("CO2-Concentrations @ Mauna Loa, Hawai",
-          subtitle = "Data Source:NOAA/Statista")+
-  labs(y= "ppm")
+CO2_wk<-CO2_ts%>% 
+  mutate(wk= floor_date(datetime, unit ="week"))%>%
+  group_by(wk)%>% summarise(CO2= mean(CO2,na.rm = T))
+head(CO2_wk,10)
+CO2_wk%>% ggplot(aes(x=wk,y=CO2))+
+  geom_line()+
+  geom_line(data=CO2_yr.mean,aes(x=yr,y=CO2,col ="red"))
+#=================
+#===================
+
+
+
+
 # import brasilian data from 
  url_data<-"https://gml.noaa.gov/aftp/data/trace_gases/co2/flask/surface/co2_abp_surface-flask_1_ccgg_event.txt"
 session<- session(url_data)
