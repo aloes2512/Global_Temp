@@ -1,4 +1,5 @@
 # import function data have been downloaded from https://gml.noaa.gov
+install.packages("tidyverse")
 require(tidyverse)
 require(lubridate)
 # Station sites
@@ -14,6 +15,7 @@ station_sites<-tabl[[1]]
 saveRDS(station_sites,file = "~/projects/Global_Temp/data/station_sites.rds")
 url_data<-"https://gml.noaa.gov/aftp/data/trace_gases/co2/flask/surface/co2_abp_surface-flask_1_ccgg_event.txt"
 browseURL(url_data)
+## ABP ( Brasilia)Arembepe, Bahia
 ABP_data<- read.table(url_data)%>% as.data.frame()
 # variable names (if not provided as header)
 names<-c("sample_site_code sample_year sample_month sample_day sample_hour sample_minute sample_seconds sample_id sample_method parameter_formula analysis_group_abbr analysis_value analysis_uncertainty analysis_flag analysis_instrument analysis_year analysis_month analysis_day analysis_hour analysis_minute analysis_seconds sample_latitude sample_longitude sample_altitude sample_elevation sample_intake_height event_number
@@ -84,7 +86,7 @@ url_samoa_dat<-"https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/surface/s
 browseURL(url_samoa_dat)
 SMO_data<-read.table(url_samoa_dat,header = TRUE)
 names(SMO_data)
-length(names(SMO_dat))# 19
+length(names(SMO_data))# 19
 #Samoa data
 SMO_dat<-sel_tbl.19(SMO_data)
 summary(SMO_dat)
@@ -95,9 +97,9 @@ SMO_plt+  geom_point(size = 0.1,alpha= 0.1)+
 BRW<-"co2_brw_surface-insitu_1_ccgg_HourlyData.webarchive"
 dat_path<- "~/desktop/Klima_Energiewende/Daten"
 BRW_path_h<- "https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/surface/brw/co2_brw_surface-insitu_1_ccgg_HourlyData.txt"
-BRW_data<-read.table(BRW_path_h)
-names(BRW_data)# 19 variables V1:V19
-colnames(BRW_data)<-BRW_data[1,]%>% as.character()
+BRW_data<-read.table(BRW_path_h,header = TRUE)
+names(BRW_data)# 19 variables 
+
 head(BRW_data,2)
 BRW_dat<-BRW_data%>% mutate(CO2= as.numeric(value),
                    datetime=mk_datetime(year,month,day,hour))%>% 
@@ -118,29 +120,27 @@ BRW_plt+  geom_point(size=0.1,alpha=0.1)+
 #Kap Südafrika CPT South African Weather Service
 url_CPT<-"https://gml.noaa.gov/aftp/data/trace_gases/co2/flask/surface/co2_cpt_surface-flask_1_ccgg_event.txt"
 CPT_data<-read.table(url_CPT,header = FALSE)
-CPT_data%>%str()
+
 # names of discrete flask sampled data
 #=====================================
 colnames(CPT_data)<- names #27 vars
-# select variables needed
-CPT_dat<-sel_tbl.27(CPT_data)%>% as_tibble()%>% subset(CO2>350 & CO2< 430)
+CPT_data%>%str()
+# select variables needed and eliminate outliers
+CPT_dat<-sel_tbl.27(CPT_data)%>% as_tibble()%>% subset(CO2>350 & CO2< 419)
 CPT_plt<-discrt_plt(CPT_dat)
-CPT_plt+ geom_point(size=0.2,alpha= 0.2) +geom_smooth(method="lm",col="red")         
+CPT_plt+ geom_point(size=0.2,alpha= 0.5) +geom_smooth(method="lm",col="red")         
 #new zealand baring head
 url_BHD<-"https://gml.noaa.gov/aftp/data/trace_gases/co2/flask/surface/co2_bhd_surface-flask_1_ccgg_event.txt"
 BHD_data<-read.table(url_BHD,header = FALSE)
+names(BHD_data)<-names
 BHD_data%>%str()
-BHD_nms<-names
-colnames(BHD_data)<-names
+
 BHD_dat<-sel_tbl.27(BHD_data)%>% as_tibble()
 head(BHD_dat)
 summary(BHD_dat)
 BHD_plt<- discrt_plt(BHD_dat)
 BHD_plt + geom_point(size=0.2,alpha=0.2)+geom_smooth(method = "lm",col ="red",size= 0.5)
 #=========================================
-BHD_plt<-discrt_plt(BHD_dat)
-BHD_plt+geom_smooth(method = "lm",col = "red", size = 0.5)+
-  geom_point(size =0.2,alpha = 0.1)
 # Kiribati Island
 url_CHR<-"https://gml.noaa.gov/aftp/data/trace_gases/co2/flask/surface/co2_chr_surface-flask_1_ccgg_event.txt"
 CHR_data<- read.table(url_CHR)
@@ -209,13 +209,8 @@ ZEP_dat<- sel_tbl.27(ZEP_data)%>% subset(CO2>0&CO2< 450)
 ZEP_plt<- discrt_plt(ZEP_dat)
 ZEP_plt+geom_point(size =0.2, alpha=0.2)+
   geom_smooth(col= "red",size=0.5)
-# NOAA global
-url_NOA<-"https://gml.noaa.gov/aftp/data/trace_gases/co2/flask/surface/co2_abp_surface-flask_1_ccgg_event.txt"
-NOA_data<- read.table(url_NOA)
-names(NOA_data)<-names
-NOA_dat<-sel_tbl.27(NOA_data)
-NOA_plt<- discrt_plt(NOA_dat)
-NOA_plt+geom_point(size=0.2,alpha= 0.2)
+
+
 #  Mauna Loa, Hawaii, United States (MLO)
 url_MLO<-"https://gml.noaa.gov/aftp/data/trace_gases/co2/flask/surface/co2_mlo_surface-flask_1_ccgg_event.txt"
 MLO_data<- read.table(url_MLO)
@@ -224,6 +219,7 @@ MLO_dat<- sel_tbl.27(MLO_data)%>% subset(CO2>200&CO2<450)
 MLO_plt<- discrt_plt(MLO_dat)
 MLO_plt+ geom_point(size=0.2,alpha=0.2)+
   geom_smooth(col="red",size=0.4)
+
 
 # save imported data
 NOAA_CO2<- list(MLO=MLO_dat,
@@ -242,6 +238,5 @@ NOAA_CO2<- list(MLO=MLO_dat,
                 BRW= BRW_dat,
                 SMO=SMO_dat,
                 ABP=ABP_dat)
-saveRDS(NOAA_CO2,file = "~/projects/Global_Temp/data/NOAA_data.rds")
 summary(NOAA_CO2)
 
