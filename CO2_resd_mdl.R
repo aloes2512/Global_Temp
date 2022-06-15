@@ -55,4 +55,4 @@ CO2_MLO_yr.plt+ggtitle("Mean Yearly deviations of
 CO2-Imission from long trend",
   subtitle = "Mauna Loa time series")+
   labs(x="",y= "CO2 [ppm]")
-  
+# combine longterm model with yearly model  
