@@ -7,4 +7,6 @@ CO2-data timeseries are from NOAA ESRL and complemented with data from German UB
                   CO2_data.lst
 the data are saved: saveRDS(CO2_data.lst,file="~/projects/Global_Temp/data/NOAA_data.rds")
 
-The linear trends of all stations is calculated: CO2_lin_trend.R
+The linear trends of all stations is calculated: CO2_lin_trend.R and visualised
+
+The residuals do show regular patterns. The pattern is fitted with gaussian basis functions.  A minimum number is looked for manually. (AIC does not seem suitable for selecting )
