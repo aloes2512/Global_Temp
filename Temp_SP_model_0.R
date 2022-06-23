@@ -86,7 +86,7 @@ plot(pterm(Temp_SP_dat.mdl,select = 1))+l_ciLine()+l_fitLine()
 SP_Temp_data%>% head(2)
 SP_Temp_data%>% ggplot(aes(x=date))+
   geom_line(aes(y=SP_NB), size = 0.2,col= "red")+
-  geom_line(aes(y=Temp.fit/3),size= 0.2)
+  geom_line(aes(y=Temp.fit-5),size= 0.2)
 SP_Temp_data%>%  ggplot(aes(x=date))+
   geom_line(aes(y=Temp.fit,col="month"))+
   geom_line(aes(y=SP_NB))
