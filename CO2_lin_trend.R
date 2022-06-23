@@ -1,12 +1,14 @@
 # linear regression model
 CO2_data.lst<- readRDS("~/projects/Global_Temp/data/NOAA_data.rds")
 summary(CO2_data.lst)
+
+require(tidyverse)
 CO2_data.lst%>% map(summary)
 length(CO2_data.lst)# 20
-require(tidyverse)
+
 require(mgcv)
 CO2_regr_mdl<-CO2_data.lst%>%map(~gam(.$CO2~.$datetime,data = .,method = "REML"))
-names(CO2_regr_mdl)
+names(CO2_regr_mdl)# 20 site names
 require (broom)
 CO2_fitted<-CO2_regr_mdl%>% map(augment)%>%
                              map(rename,CO2=`.$CO2`,
