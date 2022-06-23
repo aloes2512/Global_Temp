@@ -49,15 +49,6 @@ CO2_wk%>% ggplot(aes(x=wk,y=CO2))+
   geom_line(data=CO2_yr.mean,aes(x=yr,y=CO2,col ="red"))
 #=================
 #===================
-
-
-
-
-# import brasilian data from 
- url_data<-"https://gml.noaa.gov/aftp/data/trace_gases/co2/flask/surface/co2_abp_surface-flask_1_ccgg_event.txt"
-session<- session(url_data)
-browseURL("https://gml.noaa.gov/dv/data/")
-browseURL(url_data)
 # Lampedusa
 require(readxl)
 require(lubridate)
@@ -71,7 +62,7 @@ head(LMP_CO2_dat)
 CO2_plt<-LMP_CO2_dat%>%ggplot(aes(x=datetime,y = CO2))+
   geom_point(size= 0.5, shape= 2)
 CO2_plt+ ggtitle(" CO2-Immission Lampedusa ",
-                 subtitle = " N35.5°,E12.6,alt = 50m")+
+                 subtitle = "lon= N35.5°,lat =E12.6° ,alt = 50m")+
   labs(x="",y = "CO2 [ppm]")
 LMP_CO2_dat$site<-"LMP"
 LMP_CO2_dat$lat<- 35.5
@@ -250,5 +241,9 @@ SPO_lon<--24.8
 #Longitude: 24.8° West
 CO2_data.lst$SPO%>%head(2)
 CO2_data.lst$SPO<-CO2_data.lst$SPO%>% mutate(lat= -89.98,lon=-24.8)
+#eliminate outlier at DEUB004
+require(lubridate)
+CO2_data.lst$DEUB004 %>% subset (datetime==ymd("2014-09-01"))%>%.$CO2
+CO2_data.lst$DEUB004["CO2"]
 saveRDS(CO2_data.lst,file = file.path("data","NOAA_data.rds"))
 
