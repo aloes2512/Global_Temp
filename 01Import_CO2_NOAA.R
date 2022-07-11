@@ -246,4 +246,23 @@ require(lubridate)
 CO2_data.lst$DEUB004 %>% subset (datetime==ymd("2014-09-01"))%>%.$CO2
 CO2_data.lst$DEUB004["CO2"]
 saveRDS(CO2_data.lst,file = file.path("data","NOAA_data.rds"))
-
+#import 1_h southpole data
+SPO_path<- "~/Desktop/Klima_Energiewende/Daten/SPO_1h_werte.xlsx"
+require(readxl)
+SPO_1h_werte <- read_excel("~/Desktop/Klima_Energiewende/Daten/SPO_1h_werte.xlsx",
+sheet = "SPO2005-2021", 
+col_types = c("text", "numeric", "numeric",
+"numeric", "numeric", "skip",
+"skip", "numeric", "numeric", "skip",
+"skip", "skip", "numeric",
+"numeric", "numeric", "skip",
+"skip", "skip", "skip"),na= "-999")
+SPO_1h_werte%>%summary()
+SPO_1h_werte<-SPO_1h_werte%>%subset(value > 0)%>% mutate(datetime=ymd_h(paste(year,"-",month,"-",day,"  ",hour)))%>%
+    dplyr::select(-c(year,month,day,hour,time_decimal))
+SPO_plt<- SPO_1h_werte%>%  ggplot(aes(x= datetime,y= value))+
+  geom_point(size = 0.2,alpha= 0.7,shape =1)+
+  geom_smooth(method="lm",mapping = aes(x=datetime,y=value),col = "red",data= SPO_1h_werte,linetype=4)
+SPO_plt+ ggtitle("CO2-Immission @ Southpole")+
+  labs(x= "",y="CO2 [ppm]" )
+SPO_1h_werte%>% 

@@ -17,7 +17,8 @@ nc.get.variable.list(nc_data,min.dim=1)
 # Anzahl der Beobachtungen
 nc_data$dim$obs$len #323419
 # lade einzelne variable
-ncvar_get(nc_data,"longitude")
+ncvar_get(nc_data,"longitude")# -68.6821
+ncvar_get(nc_data,"latitude")#45.0345
 # working with the data
 url_ncdf<-"https://rpubs.com/boyerag/297592"
 browseURL(url_ncdf)
