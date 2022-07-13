@@ -1,3 +1,10 @@
+#"The Global Monitoring Laboratory (GML) of the National Oceanic and Atmospheric Administration
+#conducts research that addresses three major challenges: 
+##1.greenhouse gas and 
+##2.carbon cycle feedbacks, 
+##3.changes in clouds, aerosols, and surface radiation, and 
+##4.recovery of stratospheric ozone."
+browseURL("https://gml.noaa.gov")
 browseURL("https://pjbartlein.github.io/REarthSysSci/overview.html")
 # various data formats for earth system science
 browseURL("https://pjbartlein.github.io/REarthSysSci/ESSdata.html")
@@ -7,14 +14,18 @@ browseURL("https://pjbartlein.github.io/REarthSysSci/netCDF.html#convert-the-tim
 #ncdf4-package {ncdf4}
 install.packages("ncdf4")
 library(ncdf4)
-# set path and filename für bereits herunter geladenen Dateien
-ncpath <- "~/desktop/Klima_Energiewende/Daten/"
-nc_list<-list.files(ncpath,pattern= ".nc") # 7 files
 #R for Earth System Science
 # ESRL (Earth System Research Laboratories )
 # data source: NOAA ESRL global monitoring laboratory 
 ESL_sites<-"https://gml.noaa.gov/dv/site/"
 browseURL(ESL_sites)
+ESL_page<-read_html(ESL_sites)
+all_sites<-ESL_page%>%html_table() %>% {.[[1]]}%>% dplyr::select(-c(7))
+all_sites<-all_sites%>%rename("alt"="Elevation (meters)")
+
+nc_sites<- all_sites%>% subset(Code %in% c("AMT","BAO*","CRV", "LEF", "MBO", "SCT", "SNP", "WBI", "WGC", "WKT"))
+solar_rad_sites<-all_sites[all_sites$Project%>%as_vector(.type = "character")%>% str_detect("Solar"), ]
+
 # NOAA Dateien "https://gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu"
 url_noaa<-("https://gml.noaa.gov/dv/data/index.php?category=Greenhouse%2BGases&parameter_name=Carbon%2BDioxide&type=Insitu")
 browseURL(url_noaa)# loads files to downloads//co2_tower-insitu_1_ccgg_netCDF
@@ -22,57 +33,54 @@ noaa_co2_sites<-paste0("co2_",c("amt","bao","crv", "lef", "mbo", "sct", "snp", "
 
 # =====================================
 # Link to data of specific site
-url_co2_path<-"https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/"
+url_co2_path<-"https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc"
 browseURL(url_co2_path)#lists 10 files amt bao crv lef mbo sct snp wgi wgc wkt 
+noaa_page <- read_html(url_co2_path)
+noaa_nc_files<- noaa_page %>% html_table() %>% {.[[1]]} %>% # selects first element of list: "html_table(noaa_page)"
+  {.[["Name"]]} %>% # selects elements of a list by name
+  stringr::str_subset("\\.nc$")
 # link zur ersten Datei
-co2_amt_link<- "https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_amt_tower-insitu_1_ccgg_HourlyData.nc"
+co2_amt_link<-file.path(url_co2_path,noaa_nc_files[1])
 browseURL(co2_amt_link) # file in download
-download.file(co2_amt_link,destfile = "data/amt_tower_hourly.nc")
+download.file(co2_amt_link,destfile = file.path("data",noaa_nc_files[1]))
 #2. Datei
-co2_bao_link<- "https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_bao_tower-insitu_1_ccgg_HourlyData.nc"
-download.file(co2_bao_link,destfile = "data/bao_tower_hourly.nc")
+co2_bao_link<- file.path(url_co2_path,noaa_nc_files[2])
+browseURL(co2_bao_link)
+download.file(co2_bao_link,destfile = file.path("data",noaa_nc_files[2]))
 #3.Datei
-co2_crv_link<- "https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_crv_tower-insitu_1_ccgg_HourlyData.nc"
-download.file(co2_crv_link,destfile = "data/crv_tower_hourly.nc")
+co2_crv_link<-file.path(url_co2_path,noaa_nc_files[3])# "https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_crv_tower-insitu_1_ccgg_HourlyData.nc"
+browseURL(co2_crv_link)
+download.file(co2_crv_link,destfile = file.path("data",noaa_nc_files[3]))
 # 4. Datei
-co2_lef_link<- "https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_lef_tower-insitu_1_ccgg_HourlyData.nc"
-download.file(co2_lef_link,destfile = "data/lef_tower_hourly.nc")
+co2_lef_link<- file.path(url_co2_path,noaa_nc_files[4])#"https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_lef_tower-insitu_1_ccgg_HourlyData.nc"
+download.file(co2_lef_link,destfile = file.path("data",noaa_nc_files[4]))
 # 5.Datei
-co2_mbo_link<- "https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_mbo_surface-insitu_1_ccgg_HourlyData.nc"
+co2_mbo_link<-file.path(url_co2_path,noaa_nc_files[5])# "https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_mbo_surface-insitu_1_ccgg_HourlyData.nc"
 browseURL(co2_mbo_link)
-download.file(co2_mbo_link,destfile = "data/mbo_insitu_hourly.nc")
+download.file(co2_mbo_link,destfile = file.path("data",noaa_nc_files[5]))
 # 6. Datei
-co2_sct_link<- "https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_sct_tower-insitu_1_ccgg_HourlyData.nc"
-download.file(co2_sct_link,destfile = "data/sct_tower_hourly.nc")
+co2_sct_link<-file.path(url_co2_path,noaa_nc_files[6]) #"https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_sct_tower-insitu_1_ccgg_HourlyData.nc"
+download.file(co2_sct_link,destfile = file.path("data",noaa_nc_files[6]))
 # 7.Datei
-co2_snp_link<- "https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_snp_surface-insitu_1_ccgg_HourlyData.nc"
-download.file(co2_snp_link,destfile = "data/snp_tower_hourly.nc")
+co2_snp_link<-file.path(url_co2_path,noaa_nc_files[7]) #"https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_snp_surface-insitu_1_ccgg_HourlyData.nc"
+download.file(co2_snp_link,destfile = file.path("data",noaa_nc_files[7]))
 # 8. Datei
-co2_wbi_link<- "https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_wbi_tower-insitu_1_ccgg_HourlyData.nc"
-download.file(co2_wbi_link,destfile = "data/wbi_tower_hourly.nc")
+co2_wbi_link<-file.path(url_co2_path,noaa_nc_files[8]) #"https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_wbi_tower-insitu_1_ccgg_HourlyData.nc"
+download.file(co2_wbi_link,destfile = file.path("data",noaa_nc_files[8]))
 # 9. Datei
-co2_wgc_link<- "https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_wgc_tower-insitu_1_ccgg_HourlyData.nc"
-download.file(co2_wgc_link,destfile = "data/wgc_tower_hourly.nc")
+co2_wgc_link<- file.path(url_co2_path,noaa_nc_files[9])#"https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_wgc_tower-insitu_1_ccgg_HourlyData.nc"
+download.file(co2_wgc_link,destfile = file.path("data",noaa_nc_files[9]))
 # 10. Datei
-co2_wkt_link<- "https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_wkt_tower-insitu_1_ccgg_HourlyData.nc"
-download.file(co2_wkt_link,destfile = "data/wkt_tower_hourly.nc")
+co2_wkt_link<-file.path(url_co2_path,noaa_nc_files[10]) #"https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/co2_wkt_tower-insitu_1_ccgg_HourlyData.nc"
+download.file(co2_wkt_link,destfile = file.path("data",noaa_nc_files[10]))
 list.files("~/projects/Global_Temp/data/", pattern = ".nc")# 10 timeseries
 
 close.connection(con = url(co2_crv_link))
 #==============================================
-
+list.files("~/projects/Global_Temp/data/", pattern = ".nc")==noaa_nc_files
 # more general
-# loads file to downloads
-#path to snp and mbo
-browseURL(file.path(url_co2_path,nc_list[7]))# co2_wkt_tower-insitu_1_ccgg_HourlyData.nc
-download.file(file.path(url_co2_path,nc_list[7]),destfile="~/downloads/nc_list[7]")
-noaa_co2_sites.nc<- vector("list",length = length(noaa_co2_sites))
-for ( i in 1:10){
- 
-  download.file(file.path(url_co2_path,noaa_co2_sites.nc[i]),destfile="~/downloads/noaa_co2_sites.nc[i]")
- 
-}
-nc_list[7]
+
+nc_list
 nc_list%>% map(function(x){browseURL(file.path(url_co2_path,x))})# loads the file to downloads
 # reads data into R
 str_extract("co2_crv_tower-insitu_1_ccgg_HourlyData.nc","^.{7}")

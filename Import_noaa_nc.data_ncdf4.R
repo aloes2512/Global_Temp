@@ -9,34 +9,43 @@ url_co2_path<-"https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/"
 browseURL(url_co2_path)
 noaa_page <- read_html(url_co2_path)
 # Lösung: Suche Tabelle wähle Spalte "Name" und "files mit Endung .nc
-noaa_nc_files<- noaa_page %>% html_table() %>% {.[[1]]} %>%
-  {.[["Name"]]} %>%
+noaa_nc_files<- noaa_page %>% html_table() %>% {.[[1]]} %>% # selects first element of list: "html_table(noaa_page)"
+  {.[["Name"]]} %>% # selects elements of a list by name
   stringr::str_subset("\\.nc$")
 noaa_nc_names <-noaa_nc_files%>% str_extract("^.{7}")%>%str_extract(".{3}$")
 names(noaa_nc_files)<-noaa_nc_names
 #open(url_list.files)
-noaa_files.url<-file.path(url_co2_path,noaa_nc_files)
-names(noaa_files.url)<-noaa_nc_names
+noaa_nc_files.url<-file.path(url_co2_path,noaa_nc_files)
+names(noaa_nc_files.url)<-noaa_nc_names
 #noaa_files.url%>% map(download.file,dest.file= ...?)
 nc_dest<- vector("list",length = length(noaa_nc_names))
-names(nc_dest)<-noaa_nc_names
+nc_dest[2]
 browseURL(url_co2_path)
+nc_dest<-file.path("/data",noaa_nc_files)
+names(nc_dest)<-noaa_nc_names
+nm<-"amt"
+noaa_nc_data<-vector("list",length = length(noaa_nc_names))
+names(noaa_nc_data)<-noaa_nc_names
 for (nm in noaa_nc_names){
-   download.file(noaa_files.url[nm],file.path("data/",nc_dest[nm]))
+   download.file(noaa_files.url[nm],destfile = noaa_nc_data[nm])
 }
 # now nc_dest may be opened with nc_open
-
-
-
-
-
-
+#=====================
+require(ncdf4)
+noaa_nc_dat<- vector("list", length =  length(noaa_nc_names))
+names(noaa_nc_dat)<-noaa_nc_names
+for(nm in noaa_nc_names){
+  noaa_nc_dat[[nm]]<- nc_open(nc_dest[nm])
+}
+nm
+nc_dest[nm]
+summary(noaa_nc_dat)
 
 
 #ncpath.downlds <- "~/downloads/co2_amt_tower-insitu_1_ccgg_HourlyData.nc"
 #raw data as stored in project file
 ncpath<-"~/projects/Global_Temp/data/"
-file.path(ncpath,"")
+file.path(ncpath,"noaa_nc_files")
 nc_files<-list.files("~/downloads/",pattern =".nc")
 require(tidyverse)
 nc_names<-nc_files%>%str_extract("^.{7}")%>%str_extract(".{3}$")
