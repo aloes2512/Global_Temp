@@ -17,7 +17,7 @@ co2_total<-co2_worl.data%>%dplyr::select(iso_code,country,year,co2)
 co2_total%>%head()
 co2_world <-co2_total%>% filter(country== "World")
  co2_em_plt<-co2_world%>%ggplot(aes(x=year, y= co2))+geom_line()+
-  geom_smooth(method="gam", formula = y ~s(x,k=20),col = "red")
+  geom_smooth(method="gam", formula = y ~s(x,k=6),col = "red")
 co2_em_plt+ggtitle("Worldwide CO2 Emissions",
                    subtitle = "source worldbank/githubusercontent/owid")+
   labs(x="",y= "CO2 equivalent [Mio.t]")
