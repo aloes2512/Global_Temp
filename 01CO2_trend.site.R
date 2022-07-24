@@ -57,14 +57,21 @@ CO2_mdl.pms<-CO2_data.nmdt%>%dplyr::select(datetime,CO2,site)%>%
                       bind_cols(stnms)%>%
                       arrange(desc(`x$datetime`))
 CO2_mdl.pms<-CO2_mdl.pms%>%dplyr::select(site=nms,slope=`x$datetime`,Intcpt=`(Intercept)`)
-yrsec<-60*60*24*365.24
+yrsec<-60*60*24*365.24# 60 sec; 60 min; 24 hours; 365.24 days
 CO2_mdl.pms$slope*yrsec
-CO2_mdl.pms<-CO2_mdl.pms%>% mutate(slp.pa=round(slope*yrsec,digits=2),Intcpt=round(Intcpt,digits=0))%>%dplyr::select(-slope)
-# write to clipboard
-install.packages("clipr")
-require(clipr)
-write_clip(CO2_mdl.pms)# writes to clipboard
-# Residuals
+range(CO2_mdl.pms$slope*yrsec)
+CO2_mdl.pms<-CO2_mdl.pms%>% 
+  mutate(slp.pa=round(slope*yrsec,digits=2),Intcpt=round(Intcpt,digits=0))%>%
+  dplyr::select(-slope)%>% arrange(slp.pa)
+# export as excel .xlsx
+CO2_mdl.pms<-CO2_mdl.pms%>% left_join(station_sites, by= c("site"="Code"))%>%
+  dplyr::select(-c(GMTime,Project))
+library(openxlsx)
+library(rio)
+export(CO2_mdl.pms,"NOAA_linear_change.xlsx")
+#================================
+# Residuals from  lin fit
+CO2_lin_fit.tbl%>% head()
 CO2_resd<-CO2_lin_fit.tbl%>% dplyr::select(-c(.hat,CO2_fit,.cooksd,.std.resid,.sigma))
 CO2_MLO.resd<-CO2_resd%>% subset(Name=="MLO")
 CO2_resd.plt<-CO2_MLO.resd%>% ggplot(aes(x=datetime,y=CO2_resd))+
@@ -73,6 +80,32 @@ CO2_resd.plt+geom_smooth(mapping=aes(x=datetime,y= CO2_resd),col="red")+
   ggtitle("CO2_deviance to linear regression",
           subtitle= "Mauna Loa Observations")
 saveRDS(CO2_resd,file = "data/CO2_resd.rds")
+CO2_resd$Name%>% unique()# 29
+CO2_resd%>% subset(Name %in% c("MLO","SPO"))%>%
+                     ggplot(aes(x=datetime,y= CO2_resd,col = Name))+
+  geom_point(size= 0.1)+
+  ggtitle("CO2-Immission Mauna Loa & South Pole",
+          subtitle = "deviation from Linear Trend")+
+  labs(x="",y= "CO2-deviance [ppm]")+
+coord_cartesian(ylim = c(-25,+15))
+CO2_resd%>% subset(Name %in% c("BRW","SMO"))%>%
+  ggplot(aes(x=datetime,y= CO2_resd,col = Name))+
+  geom_point(size= 0.1)+
+  ggtitle("CO2-Immission Barrow & American Samoa",
+          subtitle = "Deviation from Linear Trend")+
+  labs(x="",y= "CO2-deviance [ppm]")
+#=======================
+# High altitude sites
+high.alt_sites<-station_sites%>% subset(Elevation> 2000)%>% inner_join(stnms,by= c("Code"="nms"))
+pull(high.alt_sites,Code)#"MBO"     "MEX"     "MLO"     "SPO"     "SUM"     "DEUB044"
+CO2_resd%>% subset(Name %in% pull(high.alt_sites,Code))%>%
+  ggplot(aes(x=datetime,y= CO2_resd,col = Name))+
+  geom_point(size= 0.1)+
+  coord_cartesian(ylim = c(-25,35))+
+  ggtitle("CO2-Immission High Alt. ",
+          subtitle = "Deviation from Linear Trend")+
+  labs(x="",y= "CO2-deviance [ppm]")
+
 # reduce observations to year 2000 until year 2021
 require(lubridate)
 CO2_lin.trnd_plt.00to21<-CO2_lin_fit.tbl%>%
