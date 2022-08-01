@@ -6,6 +6,7 @@ require(ncdf4)
 browseURL("https://pjbartlein.github.io/REarthSysSci/netCDF.html#reading-a-netcdf-data-set-using-the-ncdf4-package")
 # set path and filename of noaa nc data
 url_co2_path<-"https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/"
+
 browseURL(url_co2_path)
 noaa_page <- read_html(url_co2_path)
 # Lösung: Suche Tabelle wähle Spalte "Name" und "files mit Endung .nc
@@ -46,7 +47,7 @@ summary(noaa_nc_dat)
 #raw data as stored in project file
 ncpath<-"~/projects/Global_Temp/data/"
 file.path(ncpath,"noaa_nc_files")
-nc_files<-list.files("~/downloads/",pattern =".nc")
+nc_files<-list.files("data/",pattern =".nc")
 require(tidyverse)
 nc_names<-nc_files%>%str_extract("^.{7}")%>%str_extract(".{3}$")
 names(nc_files)<-nc_names
@@ -55,25 +56,20 @@ require(ncdf4)
 # 1 file example amt site
 nc_dat<- vector("list", length =  length(nc_names))
 names(nc_dat)<-nc_names
-nc_dat[[1]] <- nc_open(paste0("~/downloads/",nc_files[1]))
+nc_dat[[1]] <- nc_open(paste0("data/",nc_files[1]))
 for(nm in nc_names){
-  nc_dat[[nm]]<- nc_open(paste0("~/downloads/",nc_files[nm]))
+  nc_dat[[nm]]<- nc_open(paste0("data/",nc_files[nm]))
 }
+summary(nc_dat)
 summary(nc_dat[[1]])
-nc_dat[[1]]$filename# "~/downloads/co2_amt_tower-insitu_1_ccgg_HourlyData.nc"
+nc_dat[[1]]$filename# "data/co2_amt_tower-insitu_1_ccgg_HourlyData.nc"
+nc_dat[[1]]$var
 # all nc sites listed
 nc_data<- vector("list", length =  length(nc_names))
 names(nc_data)<-nc_names
-for (nm in nc_names){
-  nc_dt<- nc_open(paste0("~/downloads/",nc_files[nm]))
-  nc_data[[nm]]<- tibble(tnm = nc_dt%>%ncvar_get("time"),
-                     CO2=nc_dt%>%ncvar_get("value"))
-  
-  }
-summary(nc_data)
 
 # convert list to one dfr
-nc_data_dfr<-nc_data%>% map_dfr(.f=rbind,.id= "name")
+nc_data_dfr<-nc_dat%>% map_dfr(.f=rbind,.id= "name")
 head(nc_data_dfr)
 dim(nc_data_dfr)#2842883 3
 nc_data_dfr$name%>%unique()# 10 sites

@@ -5,8 +5,23 @@ CO2_data.lst%>%summary()
 #station parameters are listed by NOAA
 station_sites<-readRDS("data/station_sites.rds")
 station_sites%>%head()
-nms<-names(CO2_data.lst)# 20 sites
+nms<-names(CO2_data.lst)# 20 sites## MLO"     "ZEP"     "SUM"     "PSA"     "MHD"     "MEX"     "ICE"     "HPB"     "CPT"     "CHR"     "BHD"    
+# "BRW"     "SMO"     "ABP"     "SPO"     "CRV"     "DEUB004" "LMP"     "DEUB044" "TAC"    
+tolower(nms)
 stnms<-tibble(nms=names(CO2_data.lst))
+# NOAA nc files
+# set path and filename of noaa nc data
+url_co2_path<-"https://gml.noaa.gov/aftp/data/trace_gases/co2/in-situ/tower/nc/"
+
+browseURL(url_co2_path)
+noaa_page <- read_html(url_co2_path)
+# Lösung: Suche Tabelle wähle Spalte "Name" und "files mit Endung .nc
+noaa_nc_files<- noaa_page %>% html_table() %>% {.[[1]]} %>% # selects first element of list: "html_table(noaa_page)"
+  {.[["Name"]]} %>% # selects elements of a list by name
+  stringr::str_subset("\\.nc$")
+noaa_nc_names <-noaa_nc_files%>% str_extract("^.{7}")%>%str_extract(".{3}$")#"amt" "bao" "crv" "lef" "mbo" "sct" "snp" "wbi" "wgc" "wkt"
+NC_names<- toupper(noaa_nc_names)
+
 # selected sites
 stations.sel<-stnms%>%left_join(station_sites, by= c("nms"="Code"))%>% 
   dplyr::select(-Country)
@@ -16,6 +31,7 @@ CO2_data.nmdt<-CO2_data.lst%>% map_df(nmdt)
 CO2_data.nmdt<-CO2_data.nmdt%>% right_join(stations.sel, by =c("site"="nms"))
 class(CO2_data.nmdt)# tbl
 head(CO2_data.nmdt)
+
 # linear regression model per site
 CO2_regr_mdl<-CO2_data.nmdt%>%dplyr::select(datetime,CO2,site)%>%
   split(.$site)%>%
