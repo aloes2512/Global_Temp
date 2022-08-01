@@ -4,7 +4,7 @@ data_path<- "~/Desktop/Klima_Energiewende/Daten/Central_England_Temp.rds"
 dat<-readRDS(data_path)
 require(tidyverse)
 dat<-subset(dat,datum<as.Date("2022-01-01"))# take only fullyears for models
-dat<-dat%>% mutate(Temp=Temp10/10)%>% dplyr::select(-Temp10)
+
 head(dat)
 tail(dat)
 ## Overview dat
@@ -14,7 +14,7 @@ CET_plt<-dat%>% ggplot(aes(x=datum))+
   coord_cartesian(ylim = c(8,11))+
   ggtitle("Central England Mean Temperatures",
           subtitle = paste0("from ",range(dat$datum)[1]," to ",range(dat$datum)[2]))+
-  labs(y=ylab,x="")+
+  labs(y=expression(Temperature~(degree*C)),x="")+
   coord_cartesian(ylim = c(9,10.2))
 ggsave(filename = "figs/Central_England_Temp.png")
 # gam model
@@ -25,6 +25,7 @@ Temp.mdl..<- function(dt,K){
   mdl = mgcv::gam(dt,formula=Temp~ s(as.numeric(datum),k=K),family="gaussian",method ="REML")
     return(mdl)
 }
+require(broom)
 Temp_fitted<- function(mdl,dt){
   mdl<- mdl%>% 
     augment()%>% 
@@ -34,13 +35,19 @@ Temp_fitted<- function(mdl,dt){
   return(mdl)
 }
 # apply to with different number of basis functions
+Temp.mdl.10<-Temp.mdl..(dat,K=10)
 Temp.mdl.18<-Temp.mdl..(dat,K=18)
 AIC(Temp.mdl.18)#564849.2
+AIC(Temp.mdl.10)
 summary(Temp.mdl.18)# edf 14.22 
+# extract fitted data from model
+Temp.fit.10<-Temp_fitted(Temp.mdl.10,dat)  
 Temp.fit.18<-Temp_fitted(Temp.mdl.18,dat)  
 summary(Temp.fit.18)
 #check dimensions 
 NROW(Temp.fit.18)== NROW(dat)#91401 #check NROW
+Temp.plt<-Temp.fit.18%>%ggplot(aes(x=datum,y=Temp.fit))+
+  geom_line(linetype= 2, size= 1)
 # increase number of basis functions
 # 24
 Temp.mdl.24 <-Temp.mdl..(dat,K=24)
@@ -48,30 +55,36 @@ summary(Temp.mdl.24)#edf 19.73
 AIC(Temp.mdl.24)#564809.8
 Temp.fit.24<-Temp_fitted(Temp.mdl.24,dat)  
 summary(Temp.fit.24)
+Temp.plt.24<-Temp.plt+geom_line(data=Temp.fit.24,mapping=aes(x=datum,y=Temp.fit),col= "blue")
 # 36 basis functions
 Temp.mdl.36 <-Temp.mdl..(dat,K=36)
 summary(Temp.mdl.36)# edf 25.52
 AIC(Temp.mdl.36)#564792.6
 Temp.fit.36<-Temp_fitted(Temp.mdl.36,dat)  
 summary(Temp.fit.36)
+Temp.plt.36<-Temp.plt.24+geom_line(data=Temp.fit.36,mapping=aes(x=datum,y=Temp.fit),col= "green")
 #40 basis functions
 Temp.mdl.40 <-Temp.mdl..(dat,K=40)
 summary(Temp.mdl.40)# edf 29.16
 AIC(Temp.mdl.40)# 564774.1 is better
 Temp.fit.40<-Temp_fitted(Temp.mdl.40,dat)  
 summary(Temp.fit.40)
+Temp.plt.40<-Temp.plt.36+geom_line(data=Temp.fit.40,mapping=aes(x=datum,y=Temp.fit),col= "red")
 #48 basis functions
 Temp.mdl.48 <-Temp.mdl..(dat,K=48)
 summary(Temp.mdl.48)# edf 34.76
 AIC(Temp.mdl.48)# 564748.2 is better
 Temp.fit.48<-Temp_fitted(Temp.mdl.48,dat)  
 summary(Temp.fit.48)
+Temp.plt.48<-Temp.plt.36+geom_line(data=Temp.fit.48,mapping=aes(x=datum,y=Temp.fit),col= "purple")
+
 # 66 basis functions
 Temp.mdl.66 <-Temp.mdl..(dat,K=66)
 summary(Temp.mdl.66)#  
 AIC(Temp.mdl.66)# 564719.9 is better
 Temp.fit.66<-Temp_fitted(Temp.mdl.66,dat)  
 summary(Temp.fit.66)
+Temp.plt.66<-Temp.plt.48+geom_line(data=Temp.fit.48,mapping=aes(x=datum,y=Temp.fit),col= "red", linetype=4,size =0.5)
 
 # 72 basis functions
 Temp.mdl.72 <-Temp.mdl..(dat,K=72)
@@ -79,6 +92,11 @@ summary(Temp.mdl.72)# edf 48.15
 AIC(Temp.mdl.72)# 564696.4 is better
 Temp.fit.72<-Temp_fitted(Temp.mdl.72,dat)  
 summary(Temp.fit.72)
+Temp.plt.72<-Temp.plt.66+geom_line(data=Temp.fit.66,mapping=aes(x=datum,y=Temp.fit),col= "red", linetype=1,size =1)
+Temp.plt.compare<-Temp.plt.72+geom_line(data=Temp.fit.10,mapping=aes(x=datum,y=Temp.fit),col= "black", linetype=1,size =1)
+Temp.plt.compare+ labs(x="",y=expression(Temperature~(degree*C)))+
+  ggtitle("Central England Temperatures",
+  subtitle = "Fitted with 10,18,24,36 and 72 Basis Functions")
 #===========================
 # plot fitted data 
 ylab<- expression(Temperature~(degree*C))
