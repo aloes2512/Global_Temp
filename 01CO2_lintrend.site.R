@@ -11,6 +11,9 @@ stnms<-tibble(site_nms=names(CO2_data.lst))
 # selected sites
 stations.sel<-stnms%>%left_join(station_sites, by= c("site_nms"="Code"))
 stations.sel%>% filter(site_nms=="SMO")%>% .$Name # "Tutuila"
+stations.sel%>% filter(site_nms=="PSA")%>% .$Name # Palmer Station, Antarctica
+stations.sel%>% filter(site_nms=="CHR")%>% .$Name # Christmas Island
+
 # models need numerical formatted time series
 nmdt<-function(x) x<-mutate(x,datetime=as.numeric(datetime))
 CO2_data.num<-CO2_data.lst%>% map_df(nmdt)
@@ -180,4 +183,41 @@ CO2_nonlin_plt<-CO2_nonlin.mdl%>%ggplot(aes(x=datetime,y= CO2_fit,col= as_factor
 CO2_nonlin_plt+ggtitle("CO2-nonlinear Trend 20 sites",
   subtitle = "~ MLO linear trend (black)")+labs(x="",y= "CO2_fit [ppm]")+
   geom_smooth(method ="lm",data =CO2_MLO.resd,mapping=aes(x=datetime, y= CO2),col ="black",size=0.8 )
-# plot subset of data
+# scale the CO2 data 
+scale<- function(x){
+  x<- x%>% mutate(zCO2= (CO2-mean(CO2,na.rm = T))/sd(CO2))
+  return(x)
+}
+CO2_scaled<-CO2_data.lst%>% map_df(scale)
+summary(CO2_scaled)
+CO2_scaled.mdl<-CO2_scaled%>% split(.$site)%>%map(function(x) lm(x$zCO2~x$datetime))
+
+require(broom)
+CO2_scaled_lin_fit<-CO2_scaled.mdl%>% map(augment)%>% 
+  map(rename,
+      c("datetime"=`x$datetime`),
+      c("zCO2_fit" = ".fitted"),
+      c("zCO2_resd"=".resid"))
+CO2_scaled_lin_fit.tbl<- tibble()
+for (nm in site_nms){
+  df<-mutate(CO2_scaled_lin_fit[[nm]],
+             Name =as_factor(nm),
+             datetime=as.POSIXct(datetime,origin="1970-01-01",
+                                 tz = "UTC"))
+  CO2_scaled_lin_fit.tbl<- bind_rows(CO2_scaled_lin_fit.tbl,df)
+}
+
+CO2_noaa.scld.plt<-CO2_scaled_lin_fit.tbl%>% mutate(Name=as.character(Name))%>%
+subset(Name %in% c("MLO","SPO","SMO","BRW" ) )%>%
+  ggplot(aes(x=datetime,y= zCO2_fit,col= Name))+
+  geom_line()+labs(x="",y="scaled CO2")+
+  ggtitle("CO2-scaled NOAA base sites")
+
+CO2_scaled_lin_fit.tbl%>% mutate(Name=as.character(Name))%>%
+  subset(Name %in% c("MLO","BRW","DEUB044" ) )%>%
+  ggplot(aes(x=datetime,y= zCO2_fit,col= Name))+
+  geom_line()+
+  labs(x="",y="scaled CO2")+
+  ggtitle("CO2-scaled ",
+          subtitle = "Barrow,Zugspitze,Mauna Loa")
+CO2_scaled_lin_fit.tbl$Name%>% unique()  
