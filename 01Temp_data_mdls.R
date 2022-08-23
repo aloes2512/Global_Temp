@@ -1,5 +1,6 @@
 # evaluate Hadley central england dataset
 # the data have been previously downloaded and formatted "full_data22.R"
+# global temp data are available at"https://gml.noaa.gov/aftp/data/meteorology/in-situ/README
 data_path<- "~/Desktop/Klima_Energiewende/Daten/Central_England_Temp.rds"
 dat<-readRDS(data_path)
 require(tidyverse)
@@ -8,14 +9,28 @@ dat<-dat%>% mutate(Temp=Temp10/10)%>% dplyr::select(-Temp10)
 head(dat)
 tail(dat)
 ## Overview dat
+mov.avrg<- function(x,order=365){ }
+Temp_sma<-sma(dat$Temp,order = 365)
+summary(Temp_sma)
+range(Temp_sma$fitted,na.rm=TRUE)
+dat$maTemp<- Temp_sma$fitted
 ylab= expression(Temperature~(degree*C))
 CET_plt<-dat%>% ggplot(aes(x=datum))+
   geom_smooth(aes(x= datum, y= Temp))+
-  coord_cartesian(ylim = c(8,11))+
+  coord_cartesian(ylim = c(7,12))+
   ggtitle("Central England Mean Temperatures",
-          subtitle = paste0("from ",range(dat$datum)[1]," to ",range(dat$datum)[2]))+
-  labs(y=ylab,x="")+
-  coord_cartesian(ylim = c(9,10.2))
+          subtitle = paste0("yearly-averg: ",range(dat$datum)[1]," to ",range(dat$datum)[2]))+
+  labs(y=ylab,x="")
+
+CET_plt+ geom_line(data = dat,aes(x=datum,y=maTemp),col="red",size=0.5)
+ylab= expression(Temperature~(degree*C))
+CET_plt<-dat%>% ggplot(aes(x=datum))+
+  geom_smooth(aes(x= datum, y= Temp))+
+  coord_cartesian(ylim = c(7.5,11))+
+  ggtitle("Central England Mean Temperatures",
+          subtitle = paste0("yearly-averg: ",range(dat$datum)[1]," to ",range(dat$datum)[2]))+
+  labs(y=ylab,x=""))
+  #coord_cartesian(ylim = c(9,10.2))
 ggsave(filename = "figs/Central_England_Temp.png")
 # gam model
 require(mgcv)
@@ -25,6 +40,9 @@ Temp.mdl..<- function(dt,K){
   mdl = mgcv::gam(dt,formula=Temp~ s(as.numeric(datum),k=K),family="gaussian",method ="REML")
     return(mdl)
 }
+
+Temp.mdl.8<-Temp.mdl..(dat,K=8)
+AIC(Temp.mdl.8) #564892.6
 Temp_fitted<- function(mdl,dt){
   mdl<- mdl%>% 
     augment()%>% 
@@ -33,7 +51,21 @@ Temp_fitted<- function(mdl,dt){
   mdl<-left_join(dt,mdl,by="datum")
   return(mdl)
 }
-# apply to with different number of basis functions
+Temp.mdl.6<-Temp.mdl..(dat,K=6)
+AIC(Temp.mdl.6)#564849.2
+summary(Temp.mdl.6)# edf 14.22 
+Temp.fit.6<-Temp_fitted(Temp.mdl.6,dat)  
+summary(Temp.fit.6)# apply  with different number of basis functions
+Temp_plt<-Temp.fit.6%>%ggplot(aes(x=datum,y=Temp.fit))+
+  geom_line()+
+  geom_smooth(method = "lm",col="red")+
+  labs(x="",y=ylab)
+Temp_plt+ ggtitle("Temperature Trend",subtitle ="Central England" )
+# restricted timespan 1875 to 1950
+Temp.fit.6 %>% 
+  subset(datum>as.Date("1850-01-01")& datum<as.Date("1950-12-31"))%>%
+  ggplot(mapping=aes(x=datum,y=Temp.fit))+geom_smooth(method = "lm")
+#18 basis functions
 Temp.mdl.18<-Temp.mdl..(dat,K=18)
 AIC(Temp.mdl.18)#564849.2
 summary(Temp.mdl.18)# edf 14.22 
@@ -88,10 +120,9 @@ Temp_plt<-Temp.fit.18 %>% ggplot(aes(x=datum))+
   geom_line(aes(y= Temp.fit-Temp.se),col= "purple")+
   ggtitle("Central England Temperatures
   two gam models",
-          subtitle = " 18 & 24 basis functions
-    95% confidence intervall")+
+          subtitle = " 18 & 66 basis functions")+
   labs(x="",y= ylab)
-Temp_plt+geom_line(data = subset(Temp.fit.24,datum< as.Date("2022-01-01")),
+Temp_plt+geom_line(data = subset(Temp.fit.66,datum< as.Date("2022-01-01")),
                    aes(x=datum,y= Temp.fit),size=1.2,col= "black",linetype= 3)
  #36 basis functions
 head(Temp.fit.36,2)
@@ -129,15 +160,15 @@ tmp.chg<- function(dtfr){
   dfr= dtfr%>% mutate(degr_chg=lead(Temp)-Temp)%>%
     dplyr::select(datum,degr_chg)
 }
-tmp.chg(Temp.fit.60)%>% head()
-Temp_chg.36<-Temp.fit.36%>% 
+tmp.chg(Temp.fit.72)%>% head()
+Temp_chg.72<-Temp.fit.72%>% 
   mutate(Temp.chg= lead(Temp.fit)-Temp.fit)
 # chg rate from fit 36 basis functions 
-Temp_chg.36%>%ggplot(aes(x=datum))+
+Temp_chg.72%>%ggplot(aes(x=datum))+
   geom_line(aes(y=Temp.chg*365.25))+
   ggtitle("Central England ",
          subtitle = "temperature-change-rate
-36 basis functions")+
+72 basis functions")+
   labs(x="",y= expression(Temperature-Change~degree*C/a))
 #annual change rate 36 basis functions
 rng.36<-(Temp_chg.36$Temp.chg%>% range(na.rm = TRUE))*365.25# -0.06626885  0.09019538
@@ -146,8 +177,8 @@ Temp_chg.72<-Temp.fit.72%>%
   mutate(Temp.chg= lead(Temp.fit)-Temp.fit)
 Temp_chg.72%>%ggplot(aes(x=datum))+
   geom_line(aes(y=Temp.chg*365.25))+
-  ggtitle("Central England ",
-          subtitle = "temperature-change-rate
+  ggtitle("Temperature-Daily-Change",
+          subtitle = "Central England 
 72 basis functions")+
   labs(x="",y= expression(Temperature-Change~degree*C/a))
 #annual change rate 72 basis functions
@@ -156,7 +187,7 @@ Temp_data_list<- list(CET_dat= dat,
                       Temp.18= Temp.fit.18,
                       Temp.24= Temp.fit.24,
                       Temp.36= Temp.fit.36,
-                      Temp.72=Temp.fit.72
+                      Temp.72= Temp.fit.72
                    )
 saveRDS(Temp_data_list,file = "data/Temp_list.rds")
 Temp_data_list<-readRDS("data/Temp_list.rds")
@@ -197,3 +228,6 @@ Temp_chg.72<-Temp.fit.72%>%
   mutate(Temp.chg= lead(Temp.fit)-Temp.fit)
 Tmp_chg.72<-Temp_chg.72%>% subset(datum>as.Date("1950-01-01"))
 SP_plt+geom_line(data = Temp_chg.66,aes(x=datum,y=scale(Temp.chg),col = "Temp.chg"))
+# Fitting  a Polynom or general function
+fnct.fit<-"https://community.rstudio.com/t/how-to-fit-a-curve-with-an-equation/143356/14"
+browseURL(fnct.fit)
