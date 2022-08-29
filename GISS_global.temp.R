@@ -16,3 +16,5 @@ GISS_data%>% ggplot(aes(x=datum, y= Temp.100))+
   subtitle = "Deviation(K*100) from mean 1951-1980, data source= NASA-GSFC")+
   labs(x="", y= "Temp.Δ [0.01 °C]")
 GISS_data$Temp.100%>% is.na(.)%>% sum()# 145 values missing
+library(mgcv)
+GISS_mdl<-mgcv::gam(Temp.100 ~ s(as.numeric(datum),k=20)+1,data=GISS_data,method= "REML")

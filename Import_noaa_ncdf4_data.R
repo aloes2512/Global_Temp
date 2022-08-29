@@ -253,3 +253,36 @@ NOAA_CO2_data.nc<- vector("list",length=length(nc_files))
 tempor.files<- vector("list",length=length(nc_files))
 names(NOAA_CO2_data.nc)<-nc_sites
 # download raw files in tempor.files
+ibrary(ncdf4)
+library(ncdf4.helpers)
+library(tidyverse)
+"air.2x2.250.mon.anom.comb.nc"
+klima_path<-"~/desktop/Klima_Energiewende/Daten"
+GIS_Temp_noaa <-nc_open("~/desktop/Klima_Energiewende/Daten/air.2x2.250.mon.anom.comb.nc")
+time<-ncvar_get(GIS_Temp_noaa,"time" )
+length(time)#1710
+GIS_Temp_noaa$dim[[1]]# lon
+# find var names
+library(ncdf4)
+GIS_Temp_noaa <-nc_open("~/desktop/Klima_Energiewende/Daten/air.2x2.250.mon.anom.comb.nc")
+var.idNames<-names(GIS_Temp_noaa$var)#air
+air_matrix<-ncvar_get(GIS_Temp_noaa,"air" )
+nc_close(GIS_Temp_noaa)
+air_matrix%>%as_tibble()
+
+GIS_Temp_noaa$var
+GIS_Temp_noaa$var$air$longname#"Monthly Average Temperature Anomalies"
+
+dim(air_matrix)
+air_matrix[,,1]%>%as_vector()
+air_temp<-c(air_matrix[1,,])%>% na.omit()
+length(air_temp)#[1] 20707593
+#
+absolute_temp<-nc_open(file.path(klima_path,"absolute_v5.nc"))
+absolute_temp$dim
+Temp<-ncvar_get(absolute_temp,"tem")
+length(Temp)#[1] 31104
+summary(Temp)
+Time<-ncvar_get(absolute_temp,"time")# units month
+length(Time)
+tail(Time)
